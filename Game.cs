@@ -83,7 +83,6 @@ namespace Zuul
 
         public void Run()
         {
-            // print welcome
             _printWelcome(); // add this to an output manager
 
             bool finished = false;
@@ -174,9 +173,7 @@ namespace Zuul
                     return;
                 }
             }
-            
             Console.WriteLine("There was no item to take.");
-            
         }
 
         private void _takeItem(Command cmd)
@@ -207,9 +204,8 @@ namespace Zuul
                     return;
                 }
             }
-            
+
             Console.WriteLine("There was no item to take.");
-            
         }
 
         private void _printHelp()
