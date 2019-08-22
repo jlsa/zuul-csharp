@@ -1,10 +1,9 @@
 # Zuul C#
 
-## How to run?
+## New to Zuul C#?
 
-## How to contribute?
+### How to run?
 
 ## Features
 
-## Future
-
+## Future Goals
