@@ -27,5 +27,3 @@
 * some items can be picked up but not used, perhaps they hold value to npc's or to be dropped in a room for a quest?
 * some items can be repaired and then used (broken items)
 * add translations for all items, texts and commands based on the players language.
-
-

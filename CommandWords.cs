@@ -12,12 +12,14 @@ namespace Zuul
             "quit",
             "help",
             "take",
+            "use",
             // "look",
             // "inventory",
             // "hit",
-            // "use",
             // "drop",
             // "inspect",
+            // "lock",
+            // "unlock",
         };
 
         public CommandWords()

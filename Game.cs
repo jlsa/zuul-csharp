@@ -21,7 +21,7 @@ namespace Zuul
 
         public Game () {
             _parser = new Parser();
-            _player = new Player();
+            _player = new Player("John Doe");
 
             // eventually pull this out for a room manager
             _createRooms();
@@ -40,22 +40,23 @@ namespace Zuul
             cellar = new Room("in the cellar");
 
             // initialise room exits
-            outside.AddExit(Directions.EAST, theatre);
-            outside.AddExit(Directions.SOUTH, lab);
-            outside.AddExit(Directions.WEST, pub);
+            outside.AddExit(new Exit { Direction = Directions.EAST, Room = theatre, Locked = false });
+            outside.AddExit(new Exit { Direction = Directions.SOUTH, Room = lab, Locked = false });
+            outside.AddExit(new Exit { Direction = Directions.WEST, Room = pub, Locked = true });
 
-            theatre.AddExit(Directions.WEST, outside);
+            theatre.AddExit(new Exit { Direction = Directions.WEST, Room = outside, Locked = false }); 
+            // an exit should be locked.. not the room itself, as there could be more doors in that room and they are not locked.
 
-            pub.AddExit(Directions.EAST, outside);
+            pub.AddExit(new Exit { Direction = Directions.EAST, Room = outside, Locked = false });
 
-            lab.AddExit(Directions.NORTH, outside);
-            lab.AddExit(Directions.EAST, office);
+            lab.AddExit(new Exit { Direction = Directions.NORTH, Room = outside, Locked = false });
+            lab.AddExit(new Exit { Direction = Directions.EAST, Room = office, Locked = false });
 
  
-            office.AddExit(Directions.WEST, lab);
-            office.AddExit(Directions.DOWN, cellar);
+            office.AddExit(new Exit { Direction = Directions.WEST, Room = lab, Locked = false });
+            office.AddExit(new Exit { Direction = Directions.DOWN, Room = cellar, Locked = false });
 
-            cellar.AddExit(Directions.UP, office);
+            cellar.AddExit(new Exit { Direction = Directions.UP, Room = office, Locked = false });
 
             // create items
             Item paper = new Item("paper", "a piece of paper", ItemType.PICKUP); // can be picked up and used
@@ -154,6 +155,30 @@ namespace Zuul
 
             string possibleItemName = cmd.GetSecondWord();
 
+            // check if the item is in the inventory or in the room
+            // lets always first check the inventory then the room.
+            if (_player.Inventory.HasItem(possibleItemName))
+            {
+                Item item = _player.Inventory.Take(possibleItemName);
+                if (item.Name.Equals("key"))
+                {
+                    item.Use();
+                    if (item.CanBeUsed())
+                    {
+                        foreach (Exit exit in _player.Room.Exits)
+                        {
+                            if (exit.Locked) {
+                                exit.Unlock(item);
+                                Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
+                            }// else {
+                            //    exit.Lock(item);
+                            //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
+                            //}
+                        }
+                    }
+                } 
+            }
+
             for (int i = 0; i < _player.Room.Items.Count; i++)
             {
                 if (_player.Room.Items[i].Name.Equals(possibleItemName))
@@ -164,7 +189,32 @@ namespace Zuul
                         // and here it all goes to schiit..
                         // cause to use an item. it has to do something. but where and how..
                         // thats for another day. 
-                        Console.WriteLine($"You used the {possibleItemName}.");
+
+                        // only make keys work to open a closed door
+                        if (item.Name.Equals("key"))
+                        {
+                            foreach (Exit exit in _player.Room.Exits)
+                            {
+                                if (exit.Locked) {
+                                    exit.Unlock(item);
+                                    Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
+                                }// else {
+                                //    exit.Lock(item);
+                                //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
+                                //}
+                            }
+                        } 
+                        else if (item.Name.Equals("beer"))
+                        {
+                            item.Disable();
+                            Console.WriteLine($"You drank the beer now you're drunk. You already had way to much to drink.");
+                            // _player.Decrease("Sight", 1);
+                            // _player.Decrease("Agility", 1);
+                            // _player.Decrease("Intellect", 2);
+                        } else 
+                        {
+                            Console.WriteLine($"You tried using the {possibleItemName} but nothing happened to or with it.");
+                        }
                     }
                     else
                     {
@@ -238,7 +288,13 @@ namespace Zuul
             }
 
             // try to leave current room.
-            Room nextRoom = _player.GetCurrentRoom().GetExit(direction);
+            Room nextRoom = _player.GetCurrentRoom().GetExit(direction)?.Room;
+            Exit nextExit = _player.GetCurrentRoom().GetExit(direction);
+
+            if (nextExit.Locked) {
+                Console.WriteLine($"Door to the {direction} is locked. You need a key to open it.");
+                return;
+            }
 
             // if (_player.CanMoveInDirection(direction)) // this is better...
             if (nextRoom == null) {
