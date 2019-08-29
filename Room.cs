@@ -1,40 +1,59 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Zuul
 {
+    public class Exit
+    {
+        public Directions Direction {get; set;}
+        public Room Room {get; set;}
+        public bool Locked { get; set; }
+
+        public void Unlock(Item key)
+        {
+            Locked = false;
+        }
+
+        public void Lock(Item key)
+        {
+            Locked = true;
+        }
+    }
+
     public class Room
     {
         public List<Item> Items => _items;
         private List<Item> _items;
         public string LongDescription => _longDescription();
         public string ShortDescription => _shortDescription();
-
         private string _description { get; set; }
-        // hashmap <String, Room> exits; // stores exits of this room.
-        private Dictionary<Directions, Room> _exits;
+
+        public List<Exit> Exits = new List<Exit>();
 
         public Room(string description)
         {
             _description = description;
-            _exits = new Dictionary<Directions, Room>();
             _items = new List<Item>();
         }
 
-        public void AddExit(Directions direction, Room neighbor)
+        public void AddExit(Exit exit)
         {
-            _exits.Add(direction, neighbor);
+            Exits.Add(exit);
         }
 
-        public Room GetExit(Directions direction)
+        public Exit GetExit(Directions direction)
         {
-            Room room = null;
-            if (!_exits.TryGetValue(direction, out room))
-            {
-                // key doesnt exist.
-            }
-            return room;
+            return Exits.Where(e => e.Direction == direction).SingleOrDefault();
+            // foreach (Exit exit in Exits)
+            // {
+            //     if (exit.Direction == direction)
+            //     {
+            //         return exit;
+            //     }
+            // }
+            // return null;
         }
         
         public string _shortDescription()
@@ -49,7 +68,7 @@ namespace Zuul
         private string _showItems()
         {
             string returnString = "Items: ";
-            foreach (Item item in _items)
+            foreach (Item item in _items.Where(i => i.Enabled))
             {
                 returnString += " " + item.Name;
             }
@@ -60,11 +79,8 @@ namespace Zuul
         private string _exitString()
         {
             string returnString = "Exits: ";
-            foreach (KeyValuePair<Directions, Room> entry in _exits)
-            {
-                // entry.Value
-                // entry.Key
-                returnString += $" {entry.Key}";
+            foreach (Exit exit in Exits) {
+                returnString += $" {exit.Direction.ToString()}";
             }
             return returnString;
         }

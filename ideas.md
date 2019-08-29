@@ -2,8 +2,8 @@
 
 ### Ideas
 * add sounds to rooms
-* add furniture to rooms
-    * this can include paintings
+* add furniture to rooms (usable items)
+    * this can include paintings (only viewable? or can the player pick it up as well? for quests?)
 * player can move items in the room when he/she searches for things.
 * player can open locked drawers in table and cabinets
 * player can turn the lights on and off.
@@ -15,6 +15,8 @@
 * room movement should not be inside the player
     * maybe an entity manager if and when there will be npc's
 
+* quests/assignments/missions
+
 * proper command handling
     * like something with /command param1 param2 param...
     * create a proper tokenizer
@@ -25,5 +27,3 @@
 * some items can be picked up but not used, perhaps they hold value to npc's or to be dropped in a room for a quest?
 * some items can be repaired and then used (broken items)
 * add translations for all items, texts and commands based on the players language.
-
-
