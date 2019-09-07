@@ -24,6 +24,7 @@ namespace Zuul
 
     public class Room
     {
+        public List<Zuul.Entity.Npc> Npcs = new List<Zuul.Entity.Npc>();
         public List<Item> Items => _items;
         private List<Item> _items;
         public string LongDescription => _longDescription();
@@ -38,6 +39,11 @@ namespace Zuul
             _items = new List<Item>();
         }
 
+        public void AddNpc(Zuul.Entity.Npc npc)
+        {
+            Npcs.Add(npc);
+        }
+
         public void AddExit(Exit exit)
         {
             Exits.Add(exit);
@@ -46,14 +52,6 @@ namespace Zuul
         public Exit GetExit(Directions direction)
         {
             return Exits.Where(e => e.Direction == direction).SingleOrDefault();
-            // foreach (Exit exit in Exits)
-            // {
-            //     if (exit.Direction == direction)
-            //     {
-            //         return exit;
-            //     }
-            // }
-            // return null;
         }
         
         public string _shortDescription()
@@ -62,17 +60,35 @@ namespace Zuul
         }
         public string _longDescription()
         {
-            return $"You're {_description}.\n{_exitString()}\n{_showItems()}";
+            return $"You're {_description}.\n{_exitString()}\n{_showItems()}\n{_showNpcs()}";
         }
 
         private string _showItems()
         {
+            if (_items.Count == 0) {
+                return "";
+            }
+
             string returnString = "Items: ";
             foreach (Item item in _items.Where(i => i.Enabled))
             {
                 returnString += " " + item.Name;
             }
 
+            return returnString;
+        }
+
+        private string _showNpcs()
+        {
+            if (Npcs.Count == 0) {
+                return "";
+            }
+            
+            string returnString = "Npcs: ";
+            foreach (Zuul.Entity.Npc npc in Npcs)
+            {
+                returnString += " " + npc.Name;
+            }
             return returnString;
         }
 

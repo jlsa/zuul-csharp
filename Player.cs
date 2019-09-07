@@ -2,11 +2,6 @@ using System;
 
 namespace Zuul
 {
-    public enum Genders {
-        MALE,
-        FEMALE,
-        OTHER
-    }
     public class PlayerStats
     {
         public int InventorySize {get; set;}
@@ -16,6 +11,7 @@ namespace Zuul
         public int Agility {get; set;}
         public int Sight {get; set;}
     }
+    
     public class Player
     {
         public Inventory Inventory => _inventory;
@@ -25,9 +21,7 @@ namespace Zuul
         private Room _room { get; set; }
         public int Health { get => _health; }
         private int _health = 10; // magic number
-
         public string Name { get; set; }
-        
         private PlayerStats _basePlayerStats {get; set;}
         public PlayerStats Stats {get; set;}
 

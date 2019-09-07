@@ -28,7 +28,7 @@ namespace Zuul
             _name = name;
             _description = description;
             Enable();
-            AmountOfUses = 1;
+            AmountOfUses = 100;
         }
 
         public void Enable()

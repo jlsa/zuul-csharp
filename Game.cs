@@ -42,7 +42,7 @@ namespace Zuul
             // initialise room exits
             outside.AddExit(new Exit { Direction = Directions.EAST, Room = theatre, Locked = false });
             outside.AddExit(new Exit { Direction = Directions.SOUTH, Room = lab, Locked = false });
-            outside.AddExit(new Exit { Direction = Directions.WEST, Room = pub, Locked = true });
+            outside.AddExit(new Exit { Direction = Directions.WEST, Room = pub, Locked = false });
 
             theatre.AddExit(new Exit { Direction = Directions.WEST, Room = outside, Locked = false }); 
             // an exit should be locked.. not the room itself, as there could be more doors in that room and they are not locked.
@@ -77,6 +77,20 @@ namespace Zuul
             office.AddItem(sharpener);
 
             cellar.AddItem(sword);
+
+            Zuul.Entity.Npc bartender = new Zuul.Entity.Npc {
+                Name = "Bartender Bob",
+                Inventory = new Inventory(),
+                Gender = Zuul.Enums.Gender.MALE,
+                Age = 62,
+                Dialogue = new List<string> {
+                    "Hello!", // default greeting. only once
+                    "What would you like to order?", // order event
+                    "Bye"// bye event
+                }
+            };
+            bartender.Inventory.Add(new Item("bill", "the bill for your beer", ItemType.BROKEN));
+            pub.AddNpc(bartender);
 
             _player.EnterRoom(outside); // starts the player outside
         }
@@ -123,7 +137,7 @@ namespace Zuul
                 {
                     _printHelp();
                 }
-                else if (commandWord.Equals("go"))
+                else if (commandWord.Equals("go")) //  "walk", "move", "advance"
                 {
                     _goRoom(cmd);
                 } 

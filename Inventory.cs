@@ -7,10 +7,9 @@ namespace Zuul
     {
         List<Item> _items = new List<Item>();
         int MaxSize => _maxSize;
-
         private int _maxSize;
 
-        public Inventory(int size)
+        public Inventory(int size = 1)
         {
             _maxSize = size;
         }
