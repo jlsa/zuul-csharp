@@ -79,7 +79,7 @@ namespace Zuul
             cellar.AddItem(sword);
 
             Zuul.Entity.Npc bartender = new Zuul.Entity.Npc {
-                Name = "Bartender Bob",
+                Name = "Bartender Bob Rushcoal",
                 Inventory = new Inventory(),
                 Gender = Zuul.Enums.Gender.MALE,
                 Age = 62,

@@ -6,8 +6,10 @@ namespace Zuul
     {
         static void Main(string[] args)
         {
-            Game game = new Game();
-            game.Run();
+            World world = new World();
+            world.CreateRooms();
+            // Game game = new Game();
+            // game.Run();
         }
     }
 }

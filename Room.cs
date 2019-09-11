@@ -24,6 +24,7 @@ namespace Zuul
 
     public class Room
     {
+        public string Name {get; set;}
         public List<Zuul.Entity.Npc> Npcs = new List<Zuul.Entity.Npc>();
         public List<Item> Items => _items;
         private List<Item> _items;
@@ -33,7 +34,7 @@ namespace Zuul
 
         public List<Exit> Exits = new List<Exit>();
 
-        public Room(string description)
+        public Room(string description = "")
         {
             _description = description;
             _items = new List<Item>();
