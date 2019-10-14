@@ -46,14 +46,6 @@ namespace Zuul
         public Exit GetExit(Directions direction)
         {
             return Exits.Where(e => e.Direction == direction).SingleOrDefault();
-            // foreach (Exit exit in Exits)
-            // {
-            //     if (exit.Direction == direction)
-            //     {
-            //         return exit;
-            //     }
-            // }
-            // return null;
         }
         
         public string _shortDescription()
@@ -67,8 +59,13 @@ namespace Zuul
 
         private string _showItems()
         {
+            var items = _items.Where(i => i.Enabled);
+            if (items.Count() == 0) 
+            {
+                return "There are no items.";
+            }
             string returnString = "Items: ";
-            foreach (Item item in _items.Where(i => i.Enabled))
+            foreach (Item item in items)
             {
                 returnString += " " + item.Name;
             }
