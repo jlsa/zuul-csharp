@@ -81,6 +81,7 @@ namespace Zuul
 
             Zuul.Entity.Npc bartender = new Zuul.Entity.Npc {
                 Name = "Bartender Bob Rushcoal",
+                ShortName = "Bob",
                 Inventory = new Inventory(),
                 Gender = Zuul.Enums.Gender.MALE,
                 Age = 62,
@@ -120,6 +121,7 @@ namespace Zuul
 
         private bool _processCommand(Command cmd)
         {
+            Console.WriteLine(cmd.GetCommandWord());
             bool wantToQuit = false;
 
             if (cmd.IsUnknown())

@@ -8,6 +8,9 @@ namespace Zuul.Entity
     public class Npc
     {
         public string Name {get; set;}
+
+        public string ShortName {get; set;}
+        
         public Inventory Inventory {get; set;}
 
         public Gender Gender {get; set;}

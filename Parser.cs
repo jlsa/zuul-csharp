@@ -52,7 +52,7 @@ namespace Zuul
             // with it. If not, create a "null" command (for unknown command).
             if (_commands.IsCommandValid(command))
             {
-                return new Command(command, arg0);
+                return new Command(_commands.GetRootCommand(command), arg0);
             }
             else
             {

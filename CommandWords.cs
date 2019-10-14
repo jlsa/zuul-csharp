@@ -37,6 +37,11 @@ namespace Zuul
         {
             _init();
         }
+
+        public string GetRootCommand(string cmd)
+        {
+            return ValidCommands.Where(vc => vc.Options.Contains(cmd)).SingleOrDefault().Command;
+        }
         
         public bool IsCommandValid(string cmd)
         {
