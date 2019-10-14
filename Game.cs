@@ -1,3 +1,4 @@
+using System.Buffers;
 using System;
 using System.Collections.Generic;
 
@@ -121,7 +122,7 @@ namespace Zuul
                 
                 if (commandWord.Equals("help"))
                 {
-                    _printHelp();
+                    _printHelp(cmd);
                 }
                 else if (commandWord.Equals("go"))
                 {
@@ -140,9 +141,55 @@ namespace Zuul
                     Console.WriteLine("You dead!");
                     wantToQuit = _quit(cmd);
                 }
+                else if (commandWord.Equals("inventory"))
+                {
+                    _showInventory(cmd);
+                }
+                else if (commandWord.Equals("unlock"))
+                {
+                    _unlockRoom(cmd);
+                }
+                else if (commandWord.Equals("look"))
+                {
+                    _lookInRoom(cmd);
+                }
             }
 
             return wantToQuit;
+        }
+
+        private void _lookInRoom(Command cmd)
+        {
+            Console.WriteLine(_player.Room.LongDescription);
+        }
+
+        private void _unlockRoom(Command cmd)
+        {
+            if (!cmd.HasSecondWord())
+            {
+                Console.WriteLine("I wonder which direction you want to unlock.. Hmm?!");
+                return;
+            }
+
+            Directions direction = _getDirectionFromString(cmd.GetSecondWord());
+            
+            if (_player.Inventory.HasItem("key"))
+            {
+                Item key = _player.Inventory.Take("key");
+                if (key.CanBeUsed())
+                {
+                    Exit exit = _player.Room.GetExit(direction);
+                    if (exit.Locked)
+                    {
+                        exit.Unlock(key);
+                        Console.WriteLine($"You've successfully unlocked the door to {direction.ToString().ToLower()}");
+                        key.Use();
+                    }
+                }
+                if (key.CanBeUsed()) {
+                    _player.Inventory.Add(key);
+                }
+            }
         }
 
         private void _useItem(Command cmd)
@@ -154,76 +201,68 @@ namespace Zuul
             }
 
             string possibleItemName = cmd.GetSecondWord();
-
             // check if the item is in the inventory or in the room
             // lets always first check the inventory then the room.
+
             if (_player.Inventory.HasItem(possibleItemName))
             {
                 Item item = _player.Inventory.Take(possibleItemName);
-                if (item.Name.Equals("key"))
-                {
-                    item.Use();
-                    if (item.CanBeUsed())
-                    {
-                        foreach (Exit exit in _player.Room.Exits)
-                        {
-                            if (exit.Locked) {
-                                exit.Unlock(item);
-                                Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
-                            }// else {
-                            //    exit.Lock(item);
-                            //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
-                            //}
-                        }
-                    }
-                } 
-            }
-
-            for (int i = 0; i < _player.Room.Items.Count; i++)
-            {
-                if (_player.Room.Items[i].Name.Equals(possibleItemName))
-                {
-                    Item item = _player.Room.PeekItem(_player.Room.Items[i]);
-                    if (item.CanBeUsed())
-                    {
-                        // and here it all goes to schiit..
-                        // cause to use an item. it has to do something. but where and how..
-                        // thats for another day. 
-
-                        // only make keys work to open a closed door
-                        if (item.Name.Equals("key"))
-                        {
-                            foreach (Exit exit in _player.Room.Exits)
-                            {
-                                if (exit.Locked) {
-                                    exit.Unlock(item);
-                                    Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
-                                }// else {
-                                //    exit.Lock(item);
-                                //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
-                                //}
-                            }
-                        } 
-                        else if (item.Name.Equals("beer"))
-                        {
-                            item.Disable();
-                            Console.WriteLine($"You drank the beer now you're drunk. You already had way to much to drink.");
-                            // _player.Decrease("Sight", 1);
-                            // _player.Decrease("Agility", 1);
-                            // _player.Decrease("Intellect", 2);
-                        } else 
-                        {
-                            Console.WriteLine($"You tried using the {possibleItemName} but nothing happened to or with it.");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{possibleItemName} could not be used.");
-                    }
-                    return;
+                item.Use();
+                if (item.CanBeUsed() || item.CanBeTaken()) {
+                    _player.Inventory.Add(item);
                 }
             }
-            Console.WriteLine("There was no item to take.");
+
+            // for (int i = 0; i < _player.Room.Items.Count; i++)
+            // {
+            //     if (_player.Room.Items[i].Name.Equals(possibleItemName))
+            //     {
+            //         Item item = _player.Room.PeekItem(_player.Room.Items[i]);
+            //         if (item.CanBeUsed())
+            //         {
+            //             // and here it all goes to schiit..
+            //             // cause to use an item. it has to do something. but where and how..
+            //             // thats for another day. 
+
+            //             // only make keys work to open a closed door
+            //             if (item.Name.Equals("key"))
+            //             {
+            //                 foreach (Exit exit in _player.Room.Exits)
+            //                 {
+            //                     if (exit.Locked) {
+            //                         exit.Unlock(item);
+            //                         Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
+            //                     }// else {
+            //                     //    exit.Lock(item);
+            //                     //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
+            //                     //}
+            //                 }
+            //             } 
+            //             else if (item.Name.Equals("beer"))
+            //             {
+            //                 item.Disable();
+            //                 Console.WriteLine($"You drank the beer now you're drunk. You already had way to much to drink.");
+            //                 // _player.Decrease("Sight", 1);
+            //                 // _player.Decrease("Agility", 1);
+            //                 // _player.Decrease("Intellect", 2);
+            //             } else 
+            //             {
+            //                 Console.WriteLine($"You tried using the {possibleItemName} but nothing happened to or with it.");
+            //             }
+            //         }
+            //         else
+            //         {
+            //             Console.WriteLine($"{possibleItemName} could not be used.");
+            //         }
+            //         return;
+            //     }
+            // }
+            // Console.WriteLine("There was no item to take.");
+        }
+
+        private void _showInventory(Command cmd)
+        {
+            Console.WriteLine(_player.Inventory.LongDescription());
         }
 
         private void _takeItem(Command cmd)
@@ -258,7 +297,7 @@ namespace Zuul
             Console.WriteLine("There was no item to take.");
         }
 
-        private void _printHelp()
+        private void _printHelp(Command cmd)
         {
             Console.WriteLine("You are lost. You are alone. You wander");
             Console.WriteLine("around at the university.");
@@ -272,7 +311,7 @@ namespace Zuul
             if (!cmd.HasSecondWord())
             {
                 // if there is no second word, we don't know where to go..
-                Console.WriteLine("Go where?");
+                Console.WriteLine("Go where? I wander.. in circles... ...");
                 return;
             }
 
@@ -291,7 +330,9 @@ namespace Zuul
             Room nextRoom = _player.GetCurrentRoom().GetExit(direction)?.Room;
             Exit nextExit = _player.GetCurrentRoom().GetExit(direction);
 
-            if (nextExit.Locked) {
+            if (nextExit.Locked) 
+            {
+                // add auto unlock door here if player has key
                 Console.WriteLine($"Door to the {direction} is locked. You need a key to open it.");
                 return;
             }

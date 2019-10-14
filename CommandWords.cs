@@ -13,13 +13,13 @@ namespace Zuul
             "help",
             "take",
             "use",
-            // "look",
-            // "inventory",
+            "inventory",
+            "unlock",
+            "look",
             // "hit",
             // "drop",
             // "inspect",
             // "lock",
-            // "unlock",
         };
 
         public CommandWords()
