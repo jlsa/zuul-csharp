@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,24 @@ namespace Zuul
         public Inventory(int size = 1)
         {
             _maxSize = size;
+        }
+
+        public string LongDescription()
+        {
+            string output = "";
+            if (_items.Count() > 0)
+            {
+                output = "Items:";
+                foreach(var item in _items)
+                {
+                    output += $"\n {item.Name}";
+                }
+            }
+            else
+            {
+                output = "Your backpack is empty.";
+            }
+            return output;
         }
 
         public void Add(Item item)

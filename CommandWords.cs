@@ -18,21 +18,19 @@ namespace Zuul
     public class CommandWords
     {
         public List<CommandWord> ValidCommands = new List<CommandWord>();
-
         // private string[] _validCommands = new string[] {
         //     "go",
         //     "quit",
         //     "help",
         //     "take",
         //     "use",
-        //     "talk"
-        //     // "look",
-        //     // "inventory",
+        //     "inventory",
+        //     "unlock",
+        //     "look",
         //     // "hit",
         //     // "drop",
         //     // "inspect",
         //     // "lock",
-        //     // "unlock",
         // };
 
         public CommandWords()
@@ -89,6 +87,27 @@ namespace Zuul
                 Options = new List<string> {"go", "walk", "move", "advance"},
                 Description = "Enables you to move from place to place.",
                 Usage = "\"go east\", \"climb up\""
+            });
+
+            ValidCommands.Add(new CommandWord {
+                Command = "inventory",
+                Options = new List<string> {"inventory", "inv", "backpack"},
+                Description = "Lists the items in your inventory.",
+                Usage = "\"inventory\", \"inv\", \"backpack\""
+            });
+
+            ValidCommands.Add(new CommandWord {
+                Command = "unlock",
+                Options = new List<string> {"unlock"},
+                Description = "Used to unlock an exit in a given direction",
+                Usage = "\"unlock east\""
+            });
+
+            ValidCommands.Add(new CommandWord {
+                Command = "look",
+                Options = new List<string> {"look"},
+                Description = "Lets you look around the room.",
+                Usage = "\"look\""
             });
 
             ValidCommands.Add(new CommandWord {

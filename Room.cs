@@ -66,12 +66,13 @@ namespace Zuul
 
         private string _showItems()
         {
-            if (_items.Count == 0) {
-                return "";
+            var items = _items.Where(i => i.Enabled);
+            if (items.Count() == 0) 
+            {
+                return "There are no items.";
             }
-
             string returnString = "Items: ";
-            foreach (Item item in _items.Where(i => i.Enabled))
+            foreach (Item item in items)
             {
                 returnString += " " + item.Name;
             }

@@ -56,6 +56,7 @@ namespace Zuul
         {
             // display 
             string desc = "";
+            desc += Inventory.LongDescription();
             
             // You now have # items in your inventory.
             // You have no items in your inventory
