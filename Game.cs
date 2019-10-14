@@ -64,7 +64,7 @@ namespace Zuul
             Item pencil = new Item("pencil", "a broken pencil", ItemType.PICKUP); // can be picked up not yet used, only usable when sharpened
             Item sharpener = new Item("sharpener", "a pencil sharpener", ItemType.USE); // can be used but not picked up!
             Item sword = new Item("excalibur", "an enchanted flaming sword", ItemType.BOTH); // can be picked up and used
-            Item key = new Item("key", "a rusty key", ItemType.BOTH, uses: 2);
+            Item key = new Item("key", "a rusty key", ItemType.BOTH);
             Item beer = new Item("beer", "a bitter tasting beverage", ItemType.USE);
 
             // add items to rooms
