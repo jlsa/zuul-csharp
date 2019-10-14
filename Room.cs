@@ -34,8 +34,16 @@ namespace Zuul
 
         public List<Exit> Exits = new List<Exit>();
 
-        public Room(string description = "")
+        public Room(string description)
         {
+            Name = "";
+            _description = description;
+            _items = new List<Item>();
+        }
+
+        public Room(string name, string description)
+        {
+            Name = name;
             _description = description;
             _items = new List<Item>();
         }

@@ -33,12 +33,12 @@ namespace Zuul
             Room outside, theatre, pub, lab, office, cellar;
 
             // create rooms;
-            outside = new Room("outside the main entrance of the university");
-            theatre = new Room("in a lecture theatre");
-            pub = new Room("in the campus pub");
-            lab = new Room("in a computing lab");
-            office = new Room("in the computing admin office");
-            cellar = new Room("in the cellar");
+            outside = new Room("outside", "outside the main entrance of the university");
+            theatre = new Room("theatre", "in a lecture theatre");
+            pub = new Room("pub", "in the campus pub");
+            lab = new Room("lab", "in a computing lab");
+            office = new Room("office", "in the computing admin office");
+            cellar = new Room("cellar", "in the cellar");
 
             // initialise room exits
             outside.AddExit(new Exit { Direction = Directions.EAST, Room = theatre, Locked = false });
@@ -55,7 +55,7 @@ namespace Zuul
 
  
             office.AddExit(new Exit { Direction = Directions.WEST, Room = lab, Locked = false });
-            office.AddExit(new Exit { Direction = Directions.DOWN, Room = cellar, Locked = false });
+            office.AddExit(new Exit { Direction = Directions.DOWN, Room = cellar, Locked = true });
 
             cellar.AddExit(new Exit { Direction = Directions.UP, Room = office, Locked = false });
 
@@ -121,7 +121,6 @@ namespace Zuul
 
         private bool _processCommand(Command cmd)
         {
-            Console.WriteLine(cmd.GetCommandWord());
             bool wantToQuit = false;
 
             if (cmd.IsUnknown())
@@ -140,7 +139,7 @@ namespace Zuul
                 {
                     _printHelp(cmd);
                 }
-                else if (commandWord.Equals("go")) //  "walk", "move", "advance"
+                else if (commandWord.Equals("go"))
                 {
                     _goRoom(cmd);
                 } 
@@ -154,7 +153,7 @@ namespace Zuul
                 }
                 else if (commandWord.Equals("quit"))
                 {
-                    Console.WriteLine("You dead!");
+                    Console.WriteLine("You died.. poor you. Cya soon..!");
                     wantToQuit = _quit(cmd);
                 }
                 else if (commandWord.Equals("inventory"))
@@ -345,11 +344,10 @@ namespace Zuul
             // try to leave current room.
             Room nextRoom = _player.GetCurrentRoom().GetExit(direction)?.Room;
             Exit nextExit = _player.GetCurrentRoom().GetExit(direction);
-
             if (nextExit.Locked) 
             {
                 // add auto unlock door here if player has key
-                Console.WriteLine($"Door to the {direction} is locked. You need a key to open it.");
+                Console.WriteLine($"Door to the {nextRoom.Name} is locked. You need a key to open it.");
                 return;
             }
 
