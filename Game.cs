@@ -12,6 +12,10 @@ namespace Zuul
         WEST,
         UP,
         DOWN,
+        NORTHEAST,
+        SOUTHEAST,
+        NORTHWEST,
+        SOUTHWEST,
         NONE
     }
 
@@ -167,6 +171,16 @@ namespace Zuul
                 else if (commandWord.Equals("look"))
                 {
                     _lookInRoom(cmd);
+                }
+                else if (commandWord.Equals("talk"))
+                {
+                    Console.WriteLine("Having a conversation");
+                    Console.WriteLine(cmd.GetSecondWord());
+
+                    // perhaps i should add a GetWords(start, last);
+                    Console.WriteLine(cmd.GetThirdWord());
+                    // Console.WriteLine(cmd.GetFourthWord());
+                    // Console.WriteLine(cmd.GetFifthWord());
                 }
             }
 

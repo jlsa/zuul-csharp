@@ -1,6 +1,8 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Zuul
 {
@@ -18,20 +20,6 @@ namespace Zuul
     public class CommandWords
     {
         public List<CommandWord> ValidCommands = new List<CommandWord>();
-        // private string[] _validCommands = new string[] {
-        //     "go",
-        //     "quit",
-        //     "help",
-        //     "take",
-        //     "use",
-        //     "inventory",
-        //     "unlock",
-        //     "look",
-        //     // "hit",
-        //     // "drop",
-        //     // "inspect",
-        //     // "lock",
-        // };
 
         public CommandWords()
         {
@@ -46,14 +34,6 @@ namespace Zuul
         public bool IsCommandValid(string cmd)
         {
             return ValidCommands.Where(vc => vc.Options.Contains(cmd)).SingleOrDefault() != null;
-            // for (int i = 0; i < _validCommands.Length; i++)
-            // {
-            //     if (_validCommands[i].Equals(cmd))
-            //     {
-            //         return true;
-            //     }
-            // }
-            // return false;
         }
 
         public void ShowAll()
@@ -87,82 +67,33 @@ namespace Zuul
 
         private void _init()
         {
-            ValidCommands.Add(new CommandWord {
-                Command = "go",
-                Options = new List<string> {"go", "walk", "move", "advance"},
-                Description = "Enables you to move from place to place.",
-                Usage = "\"go east\", \"climb up\""
-            });
+            try
+            {
+                var json = File.ReadAllText("assets/commands.json");
+                dynamic results = JsonConvert.DeserializeObject(json);
 
-            ValidCommands.Add(new CommandWord {
-                Command = "inventory",
-                Options = new List<string> {"inventory", "inv", "backpack"},
-                Description = "Lists the items in your inventory.",
-                Usage = "\"inventory\", \"inv\", \"backpack\""
-            });
+                // Console.WriteLine(results.commands);
+                foreach (var cmd in results.commands)
+                {
+                    var options = new List<string>();
+                    foreach (var o in cmd.options)
+                    {
+                        options.Add(o.ToString());
+                    }
 
-            ValidCommands.Add(new CommandWord {
-                Command = "unlock",
-                Options = new List<string> {"unlock"},
-                Description = "Used to unlock an exit in a given direction",
-                Usage = "\"unlock east\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "look",
-                Options = new List<string> {"look"},
-                Description = "Lets you look around the room.",
-                Usage = "\"look\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "help",
-                Options = new List<string> {"list", "help"},
-                Description = "Lists all commands and their usages",
-                Usage = "\"help\", \"list\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "quit",
-                Options = new List<string> {"quit", "stop", "runaway"},
-                Description = "Hides you forever in the darkness. Unable to escape.",
-                Usage = "\"stop\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "take",
-                Options = new List<string> {"take", "pickup", "grab"},
-                Description = "Pick up, take or grab an item.",
-                Usage = "\"pickup item\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "use",
-                Options = new List<string> {"use"},
-                Description = "Use an item you hold in your inventory",
-                Usage = "\"use item\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "attack",
-                Options = new List<string> {"attack", "hit", "strike"},
-                Description = "When holding a sword strike out to a monster",
-                Usage = "\"attack 'creature'\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "cast",
-                Options = new List<string> {"cast"},
-                Description = "Cast a spell",
-                Usage = "\"cast 'spell'\""
-            });
-
-            ValidCommands.Add(new CommandWord {
-                Command = "talk",
-                Options = new List<string> {"talk", "conversation"},
-                Description = "Talk to a NPC",
-                Usage = "\"talk 'npc name'\""
-            });
+                    ValidCommands.Add(new CommandWord {
+                        Command = cmd.command.ToString(),
+                        Options = options,
+                        Description = cmd.description.ToString(),
+                        Usage = cmd.usage.ToString()
+                    });
+                }
+            }
+            catch (IOException e)
+            {
+                // pokeball exception for now.
+                Console.WriteLine(e.StackTrace);
+            }
         }
     }
 }
