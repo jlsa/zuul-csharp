@@ -1,6 +1,7 @@
 using System.Buffers;
 using System;
 using System.Collections.Generic;
+using Zuul.Enums;
 
 namespace Zuul
 {
@@ -89,10 +90,17 @@ namespace Zuul
                 Inventory = new Inventory(),
                 Gender = Zuul.Enums.Gender.MALE,
                 Age = 62,
-                Dialogue = new List<string> {
-                    "Hello!", // default greeting. only once
-                    "What would you like to order?", // order event
-                    "Bye"// bye event
+                // dialogue should contain chat_greeting and chat_ending so it guides the player to ask the proper questions.
+                Dialogue = new Dialogue() {
+                    StartSentence = $"Hello {_player.Name}, welcome back! What can I do for you? All you have to do is ask.",
+                    EndSentence = "",
+                    SubjectsAndSentences = new Dictionary<string, string>() {
+                        {"events", "Ah, you're wondering what is happening all around campus? Well, those rumors are something I tell you"},
+                        {"dragon", "Well, I don't know much but there used to be dragons hiding in the library."},
+                        {"rumors", "I don't know anything about any drag... on.. Really I don't."},
+                        {"library", "You can find it in the other building."},
+                        {"age", $"I won't tell my age."}
+                    }
                 }
             };
             bartender.Inventory.Add(new Item("bill", "the bill for your beer", ItemType.BROKEN));
@@ -176,21 +184,75 @@ namespace Zuul
                 {
                     _talkToNpc(cmd);
                 }
+                else if (commandWord.Equals("ask"))
+                {
+                    _askNpc(cmd);
+                }
             }
 
             return wantToQuit;
         }
 
+        private string _getGenderHimHerIt(Gender gender)
+        {
+            switch(gender)
+            {
+                case Gender.MALE:
+                    return "him";
+                case Gender.FEMALE:
+                    return "her";
+                case Gender.OTHER:
+                default:
+                    return "it";
+            }
+        }
+
+        private void _askNpc(Command cmd)
+        {
+            if (_player.Npc == null)
+            {
+                Console.WriteLine("You should probably first 'talk' to an NPC");
+            }
+
+            if (!cmd.HasSecondWord())
+            {
+                Console.WriteLine($"About what subject does {_player.Npc.ShortName} know anything?");
+                return;
+            }
+
+            string subject = cmd.GetSecondWord();
+            var npc = _player.Npc;
+            if (npc.Dialogue.SubjectsAndSentences[subject] != null)
+            {
+                Console.WriteLine(npc.Dialogue.SubjectsAndSentences[subject]);
+            }
+            else
+            {
+                Console.WriteLine("I'm sorry. I have no idea what you're talking about.");
+            }
+
+        }
+
         private void _talkToNpc(Command cmd)
         {
             string npcName = cmd.GetSecondWord();
-            // Console.WriteLine($"Having a conversation with {npcName}");
 
             var npc = _player.GetCurrentRoom().GetNpc(npcName);
             if (npc != null)
             {
-                // Console.WriteLine($"FOUND! NPC -> {npc.Name} -> {npc.Age} -> {npc.Gender}");
-                // start chat here
+                if (_player.Npc != null || _player.Npc != npc)
+                {
+                    // Console.WriteLine($"You are now talking with {npc.Name}");
+                    Console.WriteLine(npc.Dialogue.StartSentence);
+                    _player.ChatToNpc(npc);
+                }
+                else
+                {
+                    // Console.WriteLine($"You are still in a conversation with {npc.ShortName}");
+                }
+                
+
+                // Console.WriteLine($"What do you want to ask {_getGenderHimHerIt(npc.Gender)}?");
             }
             else
             {

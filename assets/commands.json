@@ -87,6 +87,14 @@
             ],
             "description": "Talk to an NPC",
             "usage": "\"talk 'npc [firstname] name'\""
+        },
+        {
+            "command": "ask",
+            "options": [
+                "ask"
+            ],
+            "description": "Ask something specific from an NPC",
+            "usage": "\"ask 'subject'\""
         }
     ]
 }

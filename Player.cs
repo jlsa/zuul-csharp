@@ -24,6 +24,7 @@ namespace Zuul
         public string Name { get; set; }
         private PlayerStats _basePlayerStats {get; set;}
         public PlayerStats Stats {get; set;}
+        public Zuul.Entity.Npc Npc;
 
         public Player(string name)
         {
@@ -34,6 +35,7 @@ namespace Zuul
         public void EnterRoom(Room room)
         {
             _room = room;
+            _untalkToNpc();
         }
 
         public Room GetCurrentRoom()
@@ -62,6 +64,16 @@ namespace Zuul
             // You have no items in your inventory
             // 
             return desc;
+        }
+
+        public void ChatToNpc(Zuul.Entity.Npc npc)
+        {
+            this.Npc = npc;
+        }
+
+        private void _untalkToNpc()
+        {
+            this.Npc = null;
         }
     }
 }

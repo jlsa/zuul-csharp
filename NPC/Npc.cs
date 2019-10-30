@@ -17,7 +17,7 @@ namespace Zuul.Entity
 
         public int Age {get; set;}
 
-        public List<string> Dialogue {get; set;}
+        public Dialogue Dialogue {get; set;}
 
         // way the player can interact with it
         // interaction -> leads to an action that the npc can do/say/whatever..
