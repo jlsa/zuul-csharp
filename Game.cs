@@ -174,17 +174,28 @@ namespace Zuul
                 }
                 else if (commandWord.Equals("talk"))
                 {
-                    Console.WriteLine("Having a conversation");
-                    Console.WriteLine(cmd.GetSecondWord());
-
-                    // perhaps i should add a GetWords(start, last);
-                    Console.WriteLine(cmd.GetThirdWord());
-                    // Console.WriteLine(cmd.GetFourthWord());
-                    // Console.WriteLine(cmd.GetFifthWord());
+                    _talkToNpc(cmd);
                 }
             }
 
             return wantToQuit;
+        }
+
+        private void _talkToNpc(Command cmd)
+        {
+            string npcName = cmd.GetSecondWord();
+            // Console.WriteLine($"Having a conversation with {npcName}");
+
+            var npc = _player.GetCurrentRoom().GetNpc(npcName);
+            if (npc != null)
+            {
+                // Console.WriteLine($"FOUND! NPC -> {npc.Name} -> {npc.Age} -> {npc.Gender}");
+                // start chat here
+            }
+            else
+            {
+                Console.WriteLine("No NPC found with that name");
+            }
         }
 
         private void _lookInRoom(Command cmd)

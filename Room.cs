@@ -53,6 +53,12 @@ namespace Zuul
             Npcs.Add(npc);
         }
 
+        public Zuul.Entity.Npc GetNpc(string npcName)
+        {
+            return Npcs.Where(n => n.ShortName.ToLower().Equals(npcName.ToLower()))
+                .Select(n => n).FirstOrDefault();
+        }
+
         public void AddExit(Exit exit)
         {
             Exits.Add(exit);
@@ -97,7 +103,7 @@ namespace Zuul
             string returnString = "Npcs: ";
             foreach (Zuul.Entity.Npc npc in Npcs)
             {
-                returnString += " " + npc.Name;
+                returnString += $" {npc.Name} ({npc.ShortName})";
             }
             return returnString;
         }
