@@ -503,6 +503,26 @@ namespace Zuul
                     dir = Directions.UP;
                     break;
 
+                case "ne":
+                case "northeast":
+                    dir = Directions.NORTHEAST;
+                    break;
+
+                case "se":
+                case "southeast":
+                    dir = Directions.SOUTHEAST;
+                    break;
+
+                case "nw":
+                case "northwest":
+                    dir = Directions.NORTHWEST;
+                    break;
+                
+                case "sw":
+                case "southwest":
+                    dir = Directions.SOUTHWEST;
+                    break;
+
                 default:
                     break;
             }

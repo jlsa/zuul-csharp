@@ -60,20 +60,6 @@
                     "description": "a bitter tasting beverage",
                     "type": "USE"
                 }
-            ],
-            "npcs": [
-                {
-                    "id": "npc-1",
-                    "name": "Bartender Bob Rushcoal",
-                    "inventory": [],
-                    "gender": "MALE",
-                    "age": 62,
-                    "dialogue": [
-                        "Hello!",
-                        "What would you like to order?",
-                        "Bye"
-                    ]
-                }
             ]
         },
         {

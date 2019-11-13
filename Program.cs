@@ -1,15 +1,19 @@
 ﻿using System;
+using Zuul.Editor;
 
 namespace Zuul
 {
     class Program
-    {        
-        static void Main(string[] args)
+    {
+        static void RunGame()
         {
-            // World world = new World();
-            // world.CreateRooms();
             Game game = new Game();
             game.Run();
+        }
+
+        static void Main(string[] args)
+        {
+            RunGame();
         }
     }
 }
