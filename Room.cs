@@ -24,6 +24,8 @@ namespace Zuul
 
     public class Room
     {
+        public string Name {get; set;}
+        public List<Zuul.Entity.Npc> Npcs = new List<Zuul.Entity.Npc>();
         public List<Item> Items => _items;
         private List<Item> _items;
         public string LongDescription => _longDescription();
@@ -34,8 +36,27 @@ namespace Zuul
 
         public Room(string description)
         {
+            Name = "";
             _description = description;
             _items = new List<Item>();
+        }
+
+        public Room(string name, string description)
+        {
+            Name = name;
+            _description = description;
+            _items = new List<Item>();
+        }
+
+        public void AddNpc(Zuul.Entity.Npc npc)
+        {
+            Npcs.Add(npc);
+        }
+
+        public Zuul.Entity.Npc GetNpc(string npcName)
+        {
+            return Npcs.Where(n => n.ShortName.ToLower().Equals(npcName.ToLower()))
+                .Select(n => n).FirstOrDefault();
         }
 
         public void AddExit(Exit exit)
@@ -46,14 +67,6 @@ namespace Zuul
         public Exit GetExit(Directions direction)
         {
             return Exits.Where(e => e.Direction == direction).SingleOrDefault();
-            // foreach (Exit exit in Exits)
-            // {
-            //     if (exit.Direction == direction)
-            //     {
-            //         return exit;
-            //     }
-            // }
-            // return null;
         }
         
         public string _shortDescription()
@@ -62,17 +75,36 @@ namespace Zuul
         }
         public string _longDescription()
         {
-            return $"You're {_description}.\n{_exitString()}\n{_showItems()}";
+            return $"You're {_description}.\n{_exitString()}\n{_showItems()}\n{_showNpcs()}";
         }
 
         private string _showItems()
         {
+            var items = _items.Where(i => i.Enabled);
+            if (items.Count() == 0) 
+            {
+                return "There are no items.";
+            }
             string returnString = "Items: ";
-            foreach (Item item in _items.Where(i => i.Enabled))
+            foreach (Item item in items)
             {
                 returnString += " " + item.Name;
             }
 
+            return returnString;
+        }
+
+        private string _showNpcs()
+        {
+            if (Npcs.Count == 0) {
+                return "";
+            }
+            
+            string returnString = "Npcs: ";
+            foreach (Zuul.Entity.Npc npc in Npcs)
+            {
+                returnString += $" {npc.Name} ({npc.ShortName})";
+            }
             return returnString;
         }
 

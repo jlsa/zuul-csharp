@@ -1,0 +1,100 @@
+{
+    "commands": [
+        {
+            "command": "go",
+            "options": [
+                "go", "walk", "move"
+            ],
+            "description": "Enables you to move from place to place.",
+            "usage": "\"go east\", \"move west\""
+        },
+        {
+            "command": "inventory",
+            "options": [
+                "inventory", "inv", "backpack"
+            ],
+            "description": "Lists the items in your inventory.",
+            "usage": "\"inventory\", \"inv\", \"backpack\""
+        },
+        {
+            "command": "unlock",
+            "options": [
+                "unlock"
+            ],
+            "description": "Used to unlock an exit in a given direction",
+            "usage": "\"unlock east\""
+        },
+        {
+            "command": "look",
+            "options": [
+                "look"
+            ],
+            "description": "Lets you look around the room.",
+            "usage": "\"look\""
+        },
+        {
+            "command": "help",
+            "options": [
+                "list", "help"
+            ],
+            "description": "Lists all commands and their usages",
+            "usage": "\"help\", \"list\""
+        },
+        {
+            "command": "quit",
+            "options": [
+                "quit", "exit", "runaway"
+            ],
+            "description": "Hides you forever in the darkness. Unable to escape.",
+            "usage": "\"stop\""
+        },
+        {
+            "command": "take",
+            "options": [
+                "take", "pickup", "grab"
+            ],
+            "description": "Pick up, take or grab an item.",
+            "usage": "\"pickup item\""
+        },
+        {
+            "command": "use",
+            "options": [
+                "use"
+            ],
+            "description": "Use an item you hold in your inventory",
+            "usage": "\"use item\""
+        },
+        {
+            "command": "attack",
+            "options": [
+                "attack", "hit", "strike", "punch", "slap"
+            ],
+            "description": "When holding a sword strike out to a monster or use your bare knuckles.",
+            "usage": "\"attack 'creature'\""
+        },
+        {
+            "command": "cast",
+            "options": [
+                "cast"
+            ],
+            "description": "Casts a spell",
+            "usage": "\"cast 'spell'\""
+        },
+        {
+            "command": "talk",
+            "options": [
+                "talk"
+            ],
+            "description": "Talk to an NPC",
+            "usage": "\"talk 'npc [firstname] name'\""
+        },
+        {
+            "command": "ask",
+            "options": [
+                "ask"
+            ],
+            "description": "Ask something specific from an NPC",
+            "usage": "\"ask 'subject'\""
+        }
+    ]
+}

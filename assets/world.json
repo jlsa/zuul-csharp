@@ -1,0 +1,131 @@
+{
+    "rooms": [
+        {
+            "name": "outside",
+            "description": "Outside the main entrance of the university",
+            "exits": [
+                {
+                    "direction": "EAST",
+                    "room": "theatre",
+                    "locked": false
+                },
+                {
+                    "direction": "SOUTH",
+                    "room": "lab",
+                    "locked": false
+                },
+                {
+                    "direction": "WEST",
+                    "room": "pub",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": []
+        },
+        {
+            "name": "theatre",
+            "description": "in a lecture theatre",
+            "exits": [
+                {
+                    "direction": "WEST",
+                    "room": "outside",
+                    "locked": false
+                }
+            ],
+            "items": [
+                {
+                    "name": "key",
+                    "id": "key-0",
+                    "description": "a rusty key",
+                    "type": "BOTH"
+                }
+            ],
+            "npcs": []
+        },
+        {
+            "name": "pub",
+            "description": "in the campus pub",
+            "exits": [
+                {
+                    "direction": "EAST",
+                    "room": "outside",
+                    "locked": false
+                }
+            ],
+            "items": [
+                {
+                    "name": "beer",
+                    "id": "beer-0",
+                    "description": "a bitter tasting beverage",
+                    "type": "USE"
+                }
+            ]
+        },
+        {
+            "name": "lab",
+            "description": "in the computing lab",
+            "exits": [
+                {
+                    "direction": "NORTH",
+                    "room": "outside",
+                    "locked": false
+                },
+                {
+                    "direction": "EAST",
+                    "room": "office",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": [
+                {
+                    "id": "npc-0",
+                    "name": "Teacher Vivianna Casthill",
+                    "inventory": [
+                        {
+                            "id": "hall-pass-0",
+                            "name": "hallpass",
+                            "description": "a pass to go to the loo",
+                            "type": "PICKUP"
+                        }
+                    ],
+                    "gender": "FEMALE",
+                    "age": 55,
+                    "dialogue": [
+                        "What are you doing?",
+                        "Why are you doing that?",
+                        "Stop doing that!",
+                        "Quit it!",
+                        "Go away!"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "office",
+            "description": "in the computing admin office",
+            "exits": [
+                {
+                    "direction": "WEST",
+                    "room": "lab",
+                    "locked": false
+                },
+                {
+                    "direction": "DOWN",
+                    "room": "cellar",
+                    "locked": false
+                }
+            ],
+            "items": [
+                {
+                    "id": "sword-0",
+                    "name": "excalibur",
+                    "description": "an enchanted flaming sword",
+                    "type": "BOTH"
+                }
+            ],
+            "npcs": []
+        }
+    ]
+}

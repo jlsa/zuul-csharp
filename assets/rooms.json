@@ -1,0 +1,106 @@
+[
+    {
+        "name": "townsquare",
+        "description": "A thriving town center with small stands. Maybe you can buy something here.",
+        "exits": [
+            {
+                "direction": "EAST",
+                "room": "theatre",
+                "locked": false
+            },
+            {
+                "direction": "SOUTH",
+                "room": "lab",
+                "locked": false
+            },
+            {
+                "direction": "WEST",
+                "room": "pub",
+                "locked": false
+            }
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "bridge",
+        "description": "The bridge...",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "forest",
+        "description": "",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "farmlands",
+        "description": "",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "garden",
+        "description": "The garden in front of your home. See the nice flowers your mom has planted.",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "home",
+        "description": "Your parents home",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "friend",
+        "description": "",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "crossroads",
+        "description": "",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    },
+    {
+        "name": "",
+        "description": "",
+        "exits": [
+
+        ],
+        "items": [
+            
+        ]
+    }
+]

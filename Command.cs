@@ -8,16 +8,18 @@ namespace Zuul
     {
         private string _commandWord;
         private string _secondCommandWord;
+        private string _thirdCommandWord;
     
         /**
          * Create a command object. First and second word must be supplied, but
          * either one (or both) can be null. The command word should be null to
          * indicate that this was a command that is not recognized by this game.
          */
-        public Command(string firstWord, string secondWord)
+        public Command(string firstWord, string secondWord, string thirdWord = null)
         {
             _commandWord = firstWord;
             _secondCommandWord = secondWord;
+            _thirdCommandWord = thirdWord;
         }
 
         /*
@@ -38,12 +40,22 @@ namespace Zuul
             return _secondCommandWord;
         }
 
+        public string GetThirdWord()
+        {
+            return _thirdCommandWord;
+        }
+
         public bool IsUnknown() // not known exception is thrown?
         {
             return _commandWord == null;
         }
 
         public bool HasSecondWord()
+        {
+            return _secondCommandWord != null;
+        }
+
+        public bool HasThirdWord()
         {
             return _secondCommandWord != null;
         }

@@ -1,3 +1,4 @@
+using System;
 namespace Zuul
 {
     public enum ItemType
@@ -22,13 +23,13 @@ namespace Zuul
 
         // maybe add states if used or not used? (or should we make a item type (polymorphism??) that can only be used?)
 
-        public Item(string name, string description, ItemType itemType)
+        public Item(string name, string description, ItemType itemType, int uses = 1)
         {
             _itemType = itemType;
             _name = name;
             _description = description;
             Enable();
-            AmountOfUses = 1;
+            AmountOfUses = uses;
         }
 
         public void Enable()
@@ -57,12 +58,25 @@ namespace Zuul
         public void Use()
         {
             if (!CanBeUsed()) {
+                Console.WriteLine($"{Name} can't be used. Try something else.");
                 return;
             }
             AmountOfUses -= 1;
+
             if (AmountOfUses <= 0)
             {
+                Console.WriteLine($"The {Name} is now broken.");
                 Disable();
+            }
+            else
+            {
+                string amountOfUsesMsg = "";
+                if (AmountOfUses > 1) {
+                    amountOfUsesMsg = $"{AmountOfUses} more times.";
+                } else {
+                    amountOfUsesMsg = $"{AmountOfUses} more time.";
+                }
+                Console.WriteLine($"The {Name} is used. You can use the {Name} {amountOfUsesMsg}");
             }
         }
     }
