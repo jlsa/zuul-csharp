@@ -72,7 +72,6 @@ namespace Zuul
                 var json = File.ReadAllText("assets/commands.json");
                 dynamic results = JsonConvert.DeserializeObject(json);
 
-                // Console.WriteLine(results.commands);
                 foreach (var cmd in results.commands)
                 {
                     var options = new List<string>();
