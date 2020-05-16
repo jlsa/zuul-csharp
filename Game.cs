@@ -1,36 +1,26 @@
-using System.Buffers;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Zuul.Enums;
+using Zuul.Commands;
 
 namespace Zuul
 {
-    public enum Directions
-    {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST,
-        UP,
-        DOWN,
-        NORTHEAST,
-        SOUTHEAST,
-        NORTHWEST,
-        SOUTHWEST,
-        NONE
-    }
-
     public class Game
     {
         private Parser _parser;
         private Player _player;
+        private Help _help;
 
         public Game () {
             _parser = new Parser();
+            _help = new Help(_parser);
             _player = new Player("John Doe");
 
-            // eventually pull this out for a room manager
-            _createRooms();
+            World.Instance.Create();
+            _player.EnterRoom(World.Instance.Rooms
+                .Where(r => r.Start)
+                .Single());
         }
 
         private void _createRooms()
@@ -149,7 +139,8 @@ namespace Zuul
                 
                 if (commandWord.Equals("help"))
                 {
-                    _printHelp(cmd);
+                    Zuul.Commands.HelpCommand command = new HelpCommand(_help);
+                    command.Execute();
                 }
                 else if (commandWord.Equals("go"))
                 {
@@ -212,6 +203,7 @@ namespace Zuul
             if (_player.Npc == null)
             {
                 Console.WriteLine("You should probably first 'talk' to an NPC");
+                return;
             }
 
             if (!cmd.HasSecondWord())
@@ -222,6 +214,9 @@ namespace Zuul
 
             string subject = cmd.GetSecondWord();
             var npc = _player.Npc;
+            if (npc.Dialogue == null) {
+                Console.WriteLine("*.. ignore ..*");
+            }
             if (npc.Dialogue.SubjectsAndSentences[subject] != null)
             {
                 Console.WriteLine(npc.Dialogue.SubjectsAndSentences[subject]);
@@ -314,52 +309,6 @@ namespace Zuul
                     _player.Inventory.Add(item);
                 }
             }
-
-            // for (int i = 0; i < _player.Room.Items.Count; i++)
-            // {
-            //     if (_player.Room.Items[i].Name.Equals(possibleItemName))
-            //     {
-            //         Item item = _player.Room.PeekItem(_player.Room.Items[i]);
-            //         if (item.CanBeUsed())
-            //         {
-            //             // and here it all goes to schiit..
-            //             // cause to use an item. it has to do something. but where and how..
-            //             // thats for another day. 
-
-            //             // only make keys work to open a closed door
-            //             if (item.Name.Equals("key"))
-            //             {
-            //                 foreach (Exit exit in _player.Room.Exits)
-            //                 {
-            //                     if (exit.Locked) {
-            //                         exit.Unlock(item);
-            //                         Console.Write($"Door to the {exit.Direction.ToString()} is now unlocked");
-            //                     }// else {
-            //                     //    exit.Lock(item);
-            //                     //    Console.Write($"Door to the {exit.Direction.ToString()} is now locked");
-            //                     //}
-            //                 }
-            //             } 
-            //             else if (item.Name.Equals("beer"))
-            //             {
-            //                 item.Disable();
-            //                 Console.WriteLine($"You drank the beer now you're drunk. You already had way to much to drink.");
-            //                 // _player.Decrease("Sight", 1);
-            //                 // _player.Decrease("Agility", 1);
-            //                 // _player.Decrease("Intellect", 2);
-            //             } else 
-            //             {
-            //                 Console.WriteLine($"You tried using the {possibleItemName} but nothing happened to or with it.");
-            //             }
-            //         }
-            //         else
-            //         {
-            //             Console.WriteLine($"{possibleItemName} could not be used.");
-            //         }
-            //         return;
-            //     }
-            // }
-            // Console.WriteLine("There was no item to take.");
         }
 
         private void _showInventory(Command cmd)

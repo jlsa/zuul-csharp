@@ -5,3 +5,5 @@
 * use 'sharpener' on 'pencil'
     * if use 'sharpener' on 'excalibur' is used it will tell an error message
     * if use 'sharpener' on 'pencil' is used while it is already whole it will give an error message
+
+* When looking at help, maybe only show available commands to use at that moment.

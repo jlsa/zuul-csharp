@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Zuul.Enums;
 
 namespace Zuul
 {
@@ -24,7 +25,8 @@ namespace Zuul
 
     public class Room
     {
-        public string Name {get; set;}
+        public bool Start { get; set; }
+        public string Name { get; set; }
         public List<Zuul.Entity.Npc> Npcs = new List<Zuul.Entity.Npc>();
         public List<Item> Items => _items;
         private List<Item> _items;

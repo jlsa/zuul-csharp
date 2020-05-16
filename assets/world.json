@@ -1,6 +1,7 @@
 {
     "rooms": [
         {
+            "start": true,
             "name": "outside",
             "description": "Outside the main entrance of the university",
             "exits": [
@@ -60,6 +61,37 @@
                     "description": "a bitter tasting beverage",
                     "type": "USE"
                 }
+            ],
+            "npcs": [
+                {
+                    "id": "npc-0",
+                    "name": "Bartender Bob Rushcoal",
+                    "shortname": "Bob",
+                    "inventory": [
+                        {
+                            "id": "bill-0",
+                            "name": "bill",
+                            "description": "the bill for your beer",
+                            "type": "BROKEN"
+                        }
+                    ],
+                    "gender": "MALE",
+                    "age": 62,
+                    "dialogue": {
+                        "startSentence": "Greetings!",
+                        "endSequence": "Have a pleasent evening {['male':'sir', 'female':'madam']}",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "dragons",
+                                "sentences": [
+                                    "You really want to know something about those pesky things?",
+                                    "{response['yes', 'no']}",
+                                    "{option[0] -> }"
+                                ]
+                            }
+                        ]
+                    }
+                }
             ]
         },
         {
@@ -80,8 +112,9 @@
             "items": [],
             "npcs": [
                 {
-                    "id": "npc-0",
+                    "id": "npc-1",
                     "name": "Teacher Vivianna Casthill",
+                    "shortname": "Viv",
                     "inventory": [
                         {
                             "id": "hall-pass-0",
@@ -114,6 +147,19 @@
                 {
                     "direction": "DOWN",
                     "room": "cellar",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": []
+        },
+        {
+            "name": "cellar",
+            "description": "in the computing admin office",
+            "exits": [
+                {
+                    "direction": "UP",
+                    "room": "office",
                     "locked": false
                 }
             ],
