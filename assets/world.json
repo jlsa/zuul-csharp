@@ -79,14 +79,15 @@
                     "age": 62,
                     "dialogue": {
                         "startSentence": "Greetings!",
-                        "endSequence": "Have a pleasent evening {['male':'sir', 'female':'madam']}",
+                        "endSentence": "Have a pleasent evening.",
                         "subjectsAndSentences": [
                             {
                                 "subject": "dragons",
                                 "sentences": [
                                     "You really want to know something about those pesky things?",
-                                    "{response['yes', 'no']}",
-                                    "{option[0] -> }"
+                                    "Well, I can tell you everything about them!",
+                                    "It has long been told that them dragons didn't come to this part of town.",
+                                    "I call that a lie. I saw 'em yesterday. High in the skies, heading towards the graveyard."
                                 ]
                             }
                         ]
@@ -125,13 +126,20 @@
                     ],
                     "gender": "FEMALE",
                     "age": 55,
-                    "dialogue": [
-                        "What are you doing?",
-                        "Why are you doing that?",
-                        "Stop doing that!",
-                        "Quit it!",
-                        "Go away!"
-                    ]
+                    "dialogue": {
+                        "startSentence": "Greetings!",
+                        "endSentence": "Have a pleasent evening",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "dragons",
+                                "sentences": [
+                                    "You really want to know something about those pesky things?",
+                                    "{response['yes', 'no']}",
+                                    "{option[0] -> }"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         },

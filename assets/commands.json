@@ -95,6 +95,14 @@
             ],
             "description": "Ask something specific from an NPC",
             "usage": "\"ask 'subject'\""
+        },
+        {
+            "command": "bye",
+            "options": [
+                "bye"
+            ],
+            "description": "End your conversation with an NPC",
+            "usage": "\"bye\""
         }
     ]
 }

@@ -23,83 +23,6 @@ namespace Zuul
                 .Single());
         }
 
-        private void _createRooms()
-        {
-            Room outside, theatre, pub, lab, office, cellar;
-
-            // create rooms;
-            outside = new Room("outside", "outside the main entrance of the university");
-            theatre = new Room("theatre", "in a lecture theatre");
-            pub = new Room("pub", "in the campus pub");
-            lab = new Room("lab", "in a computing lab");
-            office = new Room("office", "in the computing admin office");
-            cellar = new Room("cellar", "in the cellar");
-
-            // initialise room exits
-            outside.AddExit(new Exit { Direction = Directions.EAST, Room = theatre, Locked = false });
-            outside.AddExit(new Exit { Direction = Directions.SOUTH, Room = lab, Locked = false });
-            outside.AddExit(new Exit { Direction = Directions.WEST, Room = pub, Locked = false });
-
-            theatre.AddExit(new Exit { Direction = Directions.WEST, Room = outside, Locked = false }); 
-            // an exit should be locked.. not the room itself, as there could be more doors in that room and they are not locked.
-
-            pub.AddExit(new Exit { Direction = Directions.EAST, Room = outside, Locked = false });
-
-            lab.AddExit(new Exit { Direction = Directions.NORTH, Room = outside, Locked = false });
-            lab.AddExit(new Exit { Direction = Directions.EAST, Room = office, Locked = false });
-
- 
-            office.AddExit(new Exit { Direction = Directions.WEST, Room = lab, Locked = false });
-            office.AddExit(new Exit { Direction = Directions.DOWN, Room = cellar, Locked = true });
-
-            cellar.AddExit(new Exit { Direction = Directions.UP, Room = office, Locked = false });
-
-            // create items
-            Item paper = new Item("paper", "a piece of paper", ItemType.PICKUP); // can be picked up and used
-            Item pencil = new Item("pencil", "a broken pencil", ItemType.PICKUP); // can be picked up not yet used, only usable when sharpened
-            Item sharpener = new Item("sharpener", "a pencil sharpener", ItemType.USE); // can be used but not picked up!
-            Item sword = new Item("excalibur", "an enchanted flaming sword", ItemType.BOTH); // can be picked up and used
-            Item key = new Item("key", "a rusty key", ItemType.BOTH);
-            Item beer = new Item("beer", "a bitter tasting beverage", ItemType.USE);
-
-            // add items to rooms
-            pub.AddItem(beer);
-
-            theatre.AddItem(key);
-            
-            lab.AddItem(paper);
-            
-            office.AddItem(pencil);
-            office.AddItem(sharpener);
-
-            cellar.AddItem(sword);
-
-            Zuul.Entity.Npc bartender = new Zuul.Entity.Npc {
-                Name = "Bartender Bob Rushcoal",
-                ShortName = "Bob",
-                Inventory = new Inventory(),
-                Gender = Zuul.Enums.Gender.MALE,
-                Age = 62,
-                // dialogue should contain chat_greeting and chat_ending so it guides the player to ask the proper questions.
-                Dialogue = new Dialogue() {
-                    StartSentence = $"Hello {_player.Name}, welcome back! What can I do for you? All you have to do is ask.",
-                    EndSentence = "",
-                    SubjectsAndSentences = new Dictionary<string, string>() {
-                        {"events", "Ah, you're wondering what is happening all around campus? Well, those rumors are something I tell you"},
-                        {"dragon", "Well, I don't know much but there used to be dragons hiding in the library."},
-                        {"rumors", "I don't know anything about any drag... on.. Really I don't."},
-                        {"library", "You can find it in the other building."},
-                        {"age", $"I won't tell my age."}
-                    }
-                }
-            };
-            bartender.Inventory.Add(new Item("bill", "the bill for your beer", ItemType.BROKEN));
-            pub.AddNpc(bartender);
-
-            _player.EnterRoom(outside); // starts the player outside
-        }
-
-
         public void Run()
         {
             _printWelcome(); // add this to an output manager
@@ -115,7 +38,7 @@ namespace Zuul
         {
             Console.WriteLine();
             Console.WriteLine("Welcome to the World of Zuul!");
-            Console.WriteLine("World of Zuul is a new, incredibly text based adventure game.");
+            Console.WriteLine("World of Zuul is an old but amazing and incredible text based adventure game.");
             Console.WriteLine("Type 'help' if you need help.");
             Console.WriteLine();
             Console.WriteLine(_player.Room.LongDescription);
@@ -178,6 +101,9 @@ namespace Zuul
                 else if (commandWord.Equals("ask"))
                 {
                     _askNpc(cmd);
+                } else if (commandWord.Equals("bye"))
+                {
+                    _byeNpc(cmd);
                 }
             }
 
@@ -198,34 +124,69 @@ namespace Zuul
             }
         }
 
+        private string _getGenderHeSheThey(Gender gender)
+        {
+            switch(gender)
+            {
+                case Gender.MALE:
+                    return "he";
+                case Gender.FEMALE:
+                    return "she";
+                case Gender.OTHER:
+                default:
+                    return "they";
+            }
+        }
+
+        private void _byeNpc(Command cmd)
+        {
+            if (_player.Npc != null)
+            {
+                Console.WriteLine($"{_player.Npc.ShortName}: {_player.Npc.Dialogue.Goodbye}");
+                _player.Npc = null;
+            }
+            else
+            {
+                Console.WriteLine("You say goodbye out loud. No-one hears you. You feel strange, but it doesn't matter.");
+            }
+        }
+
         private void _askNpc(Command cmd)
         {
             if (_player.Npc == null)
             {
                 Console.WriteLine("You should probably first 'talk' to an NPC");
+                // get all NPC's in this room
+                // print ("Maybe bob, viv, or lala would be interested to have a conversation with you");
                 return;
             }
 
+            var npc = _player.Npc;
             if (!cmd.HasSecondWord())
             {
-                Console.WriteLine($"About what subject does {_player.Npc.ShortName} know anything?");
+                Console.WriteLine($"You just stare at {npc.ShortName}. Mouth open, only an uh sound escaping it.");
+                Console.WriteLine($"{npc.ShortName} looks awkward at you, wondering why {_getGenderHeSheThey(npc.Gender)} greeted you in the first place.");
+
+                Console.WriteLine("Maybe you would like to strike up a conversation about:");
+                foreach (var subjectsAndSentences in npc.Dialogue.SubjectsAndSentences)
+                {
+                    Console.WriteLine($" - {subjectsAndSentences.Key}");
+                }
                 return;
             }
 
             string subject = cmd.GetSecondWord();
-            var npc = _player.Npc;
-            if (npc.Dialogue == null) {
-                Console.WriteLine("*.. ignore ..*");
-            }
             if (npc.Dialogue.SubjectsAndSentences[subject] != null)
             {
-                Console.WriteLine(npc.Dialogue.SubjectsAndSentences[subject]);
+                foreach (var sentence in npc.Dialogue.SubjectsAndSentences[subject])
+                {
+                    Console.WriteLine($"{npc.ShortName}: {sentence}");
+                }
             }
             else
             {
-                Console.WriteLine("I'm sorry. I have no idea what you're talking about.");
+                Console.WriteLine($"{npc.ShortName}: I'm sorry. I have no idea what you're talking about.");
             }
-
         }
 
         private void _talkToNpc(Command cmd)
@@ -238,7 +199,12 @@ namespace Zuul
                 if (_player.Npc != null || _player.Npc != npc)
                 {
                     // Console.WriteLine($"You are now talking with {npc.Name}");
-                    Console.WriteLine(npc.Dialogue.StartSentence);
+                    Console.WriteLine($"{npc.ShortName}: {npc.Dialogue.Greeting}");
+                    Console.WriteLine($"Maybe you would like to ask {npc.Name} about:");
+                    foreach (var subjectsAndSentences in npc.Dialogue.SubjectsAndSentences)
+                    {
+                        Console.WriteLine($" - {subjectsAndSentences.Key}");
+                    }
                     _player.ChatToNpc(npc);
                 }
                 else

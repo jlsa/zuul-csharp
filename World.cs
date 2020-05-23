@@ -54,10 +54,19 @@ namespace Zuul
                 Room room = rooms.Where(r => r.Name.Equals(resRoom.name.ToString())).FirstOrDefault();
                 if (room != null) {
                     foreach (var npc in resRoom.npcs) {
+                        Dictionary<string, string[]> subjectsAndSentences = new Dictionary<string, string[]>();
+                        
+                        foreach (var sns in npc.dialogue.subjectsAndSentences)
+                        {
+                            string topic = sns.subject;
+                            string[] sentences = sns.sentences.ToObject<string[]>();
+                            subjectsAndSentences.Add(topic, sentences);
+                        }
+
                         Dialogue dialogue = new Dialogue {
-                            StartSentence = npc.dialogue.startSentence,
-                            EndSentence = npc.dialogue.endSentence,
-                            SubjectsAndSentences = new Dictionary<string, string>()
+                            Greeting = npc.dialogue.startSentence,
+                            Goodbye = npc.dialogue.endSentence,
+                            SubjectsAndSentences = subjectsAndSentences
                         };
 
                         room.AddNpc(new Zuul.Entity.Npc {
