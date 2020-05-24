@@ -1,7 +1,7 @@
 {
     "rooms": [
         {
-            "start": true,
+            "start": false,
             "name": "outside",
             "description": "Outside the main entrance of the university",
             "exits": [
@@ -19,10 +19,16 @@
                     "direction": "WEST",
                     "room": "pub",
                     "locked": false
+                },
+                {
+                    "direction": "NORTH",
+                    "room": "graveyard",
+                    "locked": false
                 }
             ],
             "items": [],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "theatre",
@@ -42,7 +48,8 @@
                     "type": "BOTH"
                 }
             ],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "pub",
@@ -93,7 +100,8 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "monsters": []
         },
         {
             "name": "lab",
@@ -141,7 +149,8 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "monsters": []
         },
         {
             "name": "office",
@@ -159,11 +168,12 @@
                 }
             ],
             "items": [],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "cellar",
-            "description": "in the computing admin office",
+            "description": "in the dungeons below...",
             "exits": [
                 {
                     "direction": "UP",
@@ -179,7 +189,72 @@
                     "type": "BOTH"
                 }
             ],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
+        },
+        {
+            "start": true,
+            "name": "graveyard",
+            "description": "in a graveyard and it's dark and creepy. There are tombstones everywhere.",
+            "exits": [
+                {
+                    "direction": "SOUTH",
+                    "room": "outside",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": [],
+            "monsters": [
+                {
+                    "name": "Dragonus",
+                    "shortName": "Dragonus",
+                    "inventory": [
+                        {
+                            "name": "Pile of gold and gems",
+                            "description": "the loot from the mighty Dragonus",
+                            "type": "BROKEN"
+                        }
+                    ],
+                    "dialogue": {
+                        "startSentence": "Broaawr!!",
+                        "endSentence": "You. I don't. I won't believe it. How can you wield a weapon like that?",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "fight",
+                                "sentences": [
+                                    "You will perish.",
+                                    "Little insect. You mean nothing to the grand Dragonus!",
+                                    "Flee! Flee! Run while you still breathe."
+                                ]
+                            },
+                            {
+                                "subject": "hurt",
+                                "sentences": [
+                                    "That was just a little stab, you perish for that!",
+                                    "How is this possible, you're just a little insect.",
+                                    "Now I'm getting really angry"
+                                ]
+                            },
+                            {
+                                "subject": "pickpocket",
+                                "sentences": [
+                                    "You filthy flee, how dare you. Stay away from my loot!"
+                                ]
+                            }
+                        ]
+                    },
+                    "stats": {
+                        "inventorySize": 1,
+                        "baseHealthPoints": 100,
+                        "healthPoints": 100,
+                        "strength": 20,
+                        "intellect": 10,
+                        "agility": 25,
+                        "sight": 30
+                    }
+                }
+            ]
         }
     ]
 }

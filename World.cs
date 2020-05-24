@@ -103,6 +103,40 @@ namespace Zuul
                             });
                         }
                     }
+
+                    foreach (var monster in resRoom.monsters)
+                    {
+                        Dictionary<string, string[]> subjectsAndSentences = new Dictionary<string, string[]>();
+                        
+                        foreach (var sns in monster.dialogue.subjectsAndSentences)
+                        {
+                            string topic = sns.subject;
+                            string[] sentences = sns.sentences.ToObject<string[]>();
+                            subjectsAndSentences.Add(topic, sentences);
+                        }
+
+                        Dialogue dialogue = new Dialogue {
+                            Greeting = monster.dialogue.startSentence,
+                            Goodbye = monster.dialogue.endSentence,
+                            SubjectsAndSentences = subjectsAndSentences
+                        };
+
+                        room.AddMonster(new Zuul.Entity.Monster {
+                            Name = monster.name,
+                            Inventory = new Inventory(monster.inventory.Count),
+                            ShortName = monster.shortName,
+                            Dialogue = dialogue,
+                            Stats = new Entity.MonsterStats {
+                                InventorySize = monster.inventory.Count,
+                                BaseHealthPoints = monster.stats.baseHealthPoints,
+                                HealthPoints = monster.stats.healthPoints,
+                                Strength = monster.stats.strength,
+                                Intellect = monster.stats.intellect,
+                                Agility = monster.stats.agility,
+                                Sight = monster.stats.sight
+                            }
+                        });
+                    }
                 }
             }
 

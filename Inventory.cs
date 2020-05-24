@@ -68,5 +68,10 @@ namespace Zuul
         {
             return _items.Where(i => i.Name == itemName).SingleOrDefault() != null;
         }
+
+        public bool HasItems()
+        {
+            return _items.Any();
+        }
     }
 }

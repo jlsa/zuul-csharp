@@ -28,6 +28,7 @@ namespace Zuul
         public bool Start { get; set; }
         public string Name { get; set; }
         public List<Zuul.Entity.Npc> Npcs = new List<Zuul.Entity.Npc>();
+        public List<Zuul.Entity.Monster> Monsters = new List<Zuul.Entity.Monster>();
         public List<Item> Items => _items;
         private List<Item> _items;
         public string LongDescription => _longDescription();
@@ -48,6 +49,17 @@ namespace Zuul
             Name = name;
             _description = description;
             _items = new List<Item>();
+        }
+
+        public void AddMonster(Zuul.Entity.Monster monster)
+        {
+            Monsters.Add(monster);
+        }
+
+        public Zuul.Entity.Monster GetMonster(string name)
+        {
+            return Monsters.Where(m => m.ShortName.ToLower().Equals(name.ToLower()))
+                .Select(m => m).FirstOrDefault();
         }
 
         public void AddNpc(Zuul.Entity.Npc npc)
@@ -77,7 +89,26 @@ namespace Zuul
         }
         public string _longDescription()
         {
-            return $"You're {_description}.\n{_exitString()}\n{_showItems()}\n{_showNpcs()}";
+            string description = $"You're {_description}.";
+            description += $"\n{_exitString()}";
+            description += $"\n{_showItems()}";
+            description += $"\n{_showNpcs()}";
+            description += $"\n{_showMonsters()}";
+            return description;
+        }
+
+        public string _showMonsters()
+        {
+            if (Monsters.Count == 0) {
+                return "";
+            }
+            
+            string returnString = "Monsters: ";
+            foreach (Zuul.Entity.Monster monster in Monsters)
+            {
+                returnString += $" {monster.Name} ({monster.ShortName})";
+            }
+            return returnString;
         }
 
         private string _showItems()

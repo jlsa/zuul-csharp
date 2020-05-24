@@ -101,9 +101,22 @@ namespace Zuul
                 else if (commandWord.Equals("ask"))
                 {
                     _askNpc(cmd);
-                } else if (commandWord.Equals("bye"))
+                } 
+                else if (commandWord.Equals("bye"))
                 {
                     _byeNpc(cmd);
+                }
+                else if (commandWord.Equals("fight"))
+                {
+                    _fightMonster(cmd);
+                }
+                else if (commandWord.Equals("attack"))
+                {
+                    _attackMonster(cmd);
+                }
+                else if (commandWord.Equals("loot"))
+                {
+                    _lootMonster(cmd);
                 }
             }
 
@@ -135,6 +148,153 @@ namespace Zuul
                 case Gender.OTHER:
                 default:
                     return "they";
+            }
+        }
+
+        private void _fightMonster(Command cmd)
+        {
+            string monsterName = cmd.GetSecondWord();
+
+            var monster = _player.GetCurrentRoom().GetMonster(monsterName);
+            if (monster != null)
+            {
+                if (_player.Monster != null || _player.Monster != monster)
+                {
+                    if (monster.IsAlive())
+                    {
+                        Console.WriteLine($"{monster.ShortName}: {monster.Dialogue.Greeting}");
+                        _player.FightMonster(monster);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You can't pick a fight with a corpse");
+                    }
+                }
+                else
+                {
+                    // Console.WriteLine($"You are still in a conversation with {npc.ShortName}");
+                }
+                // Console.WriteLine($"What do you want to ask {_getGenderHimHerIt(npc.Gender)}?");
+            }
+            else
+            {
+                Console.WriteLine($"You don't see a monster that fits the description of a {monsterName}.");
+            }
+        }
+
+        private void _lootMonster(Command cmd)
+        {
+            Zuul.Entity.Monster monster;
+            if (cmd.HasSecondWord())
+            {
+                monster = _player.GetCurrentRoom().GetMonster(cmd.GetSecondWord());
+                if (monster != null)
+                {
+                    if (!monster.IsAlive())
+                    {
+                        if (!monster.Inventory.HasItems())
+                        {
+                            Console.WriteLine($"There is no loot.. Sadly. You just shrug.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"You succesfully looted {monster.Name}.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Probably best to first fight and kill {monster.Name} before trying to loot it.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"There is no monster that seems to fit the description of this {cmd.GetSecondWord()}.");
+                    string response = "Feeling the need to loot something you put your own hands in your pockets and try to loot them.";
+                    if (!_player.Inventory.HasItems())
+                    {
+                        response += " Sadly they are empty.";
+                    }
+                    Console.WriteLine(response);
+                }
+            }
+            else
+            {
+                monster = _player.Monster;
+                if (monster == null) {
+                    Console.WriteLine($"Probably best to first fight and kill any monster before trying to loot it.");
+                    string response = "Feeling the need to loot something you put your own hands in your pockets and try to loot them.";
+                    if (!_player.Inventory.HasItems())
+                    {
+                        response += " Sadly they are empty.";
+                    }
+                }
+                else
+                {
+                    if (!monster.Inventory.HasItems())
+                    {
+                        Console.WriteLine($"There is no loot.. Sadly. You just shrug.");
+                    }
+                    else
+                    {
+                        if (monster.IsAlive())
+                        {
+                            Console.WriteLine($"{monster.Name}: [angry] {monster.Dialogue.SubjectsAndSentences["pickpocket"][0]}");
+                            Console.WriteLine("You failed to obtain the loot");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"You succesfully got the loot from {monster.Name}");
+                            // Console.WriteLine($"The loot you've obtained was: ['something fancy']"); // TODO
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        private void _attackMonster(Command cmd)
+        {
+            var monster = _player.Monster;
+            
+            if (monster == null)
+            {
+                if (_player.Room.Npcs.Any())
+                {
+                    Console.WriteLine("You hit the air.. You hope no-one has seen you.");
+                }
+                else
+                {
+                    Console.WriteLine("You hit the air. Luckely no-one is around to see you.");
+                }
+                return;
+            }
+            
+            if (!monster.IsAlive())
+            {
+                Console.WriteLine($"You should stop attacking the corpse of {monster.Name}. It does not look good on you.");
+                return;
+            }
+
+            bool playerAttacksFirst = _player.Stats.Agility > monster.Stats.Agility;
+            if (_player.Stats.Agility == monster.Stats.Agility)
+            {
+                Random rand = new Random();
+                double lala = rand.NextDouble();
+                playerAttacksFirst = lala >= 0.5;
+                Console.WriteLine($"lala: {lala} -> {lala >= 0.5}");
+            }
+
+            if (playerAttacksFirst)
+            {
+                monster.Hurt(_player.Stats.Strength);
+                if (monster.IsAlive()) {
+                    monster.Attack(_player);
+                }
+            }
+            else
+            {
+                monster.Attack(_player);
+                monster.Hurt(_player.Stats.Strength);
             }
         }
 

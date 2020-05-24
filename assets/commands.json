@@ -65,14 +65,6 @@
             "usage": "\"use item\""
         },
         {
-            "command": "attack",
-            "options": [
-                "attack", "hit", "strike", "punch", "slap"
-            ],
-            "description": "When holding a sword strike out to a monster or use your bare knuckles.",
-            "usage": "\"attack 'creature'\""
-        },
-        {
             "command": "cast",
             "options": [
                 "cast"
@@ -103,6 +95,30 @@
             ],
             "description": "End your conversation with an NPC",
             "usage": "\"bye\""
+        },
+        {
+            "command": "fight",
+            "options": [
+                "fight"
+            ],
+            "description": "Starts a fight with a monster",
+            "usage": "\"fight 'monster'\""
+        },
+        {
+            "command": "attack",
+            "options": [
+                "attack"
+            ],
+            "description": "Attacks the monster that you have started a fight with.",
+            "usage": "\"attack\""
+        },
+        {
+            "command": "loot",
+            "options": [
+                "loot"
+            ],
+            "description": "With this command you can loot a monster you've just slaughtered. Ending the fight with this command.",
+            "usage": "\"when in a fight use loot else use loot 'monster'\""
         }
     ]
 }
