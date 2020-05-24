@@ -19,10 +19,16 @@
                     "direction": "WEST",
                     "room": "pub",
                     "locked": false
+                },
+                {
+                    "direction": "NORTH",
+                    "room": "graveyard",
+                    "locked": false
                 }
             ],
             "items": [],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "theatre",
@@ -39,10 +45,17 @@
                     "name": "key",
                     "id": "key-0",
                     "description": "a rusty key",
-                    "type": "BOTH"
+                    "type": "BOTH",
+                    "stats": {
+                        "weight": 0,
+                        "strength": 0,
+                        "agility": 0,
+                        "healthPoints": 0
+                    }
                 }
             ],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "pub",
@@ -59,7 +72,13 @@
                     "name": "beer",
                     "id": "beer-0",
                     "description": "a bitter tasting beverage",
-                    "type": "USE"
+                    "type": "USE",
+                    "stats": {
+                        "weight": 0,
+                        "strength": 0,
+                        "agility": 0,
+                        "healthPoints": 0
+                    }
                 }
             ],
             "npcs": [
@@ -72,7 +91,13 @@
                             "id": "bill-0",
                             "name": "bill",
                             "description": "the bill for your beer",
-                            "type": "BROKEN"
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
                         }
                     ],
                     "gender": "MALE",
@@ -93,7 +118,8 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "monsters": []
         },
         {
             "name": "lab",
@@ -141,7 +167,8 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "monsters": []
         },
         {
             "name": "office",
@@ -159,11 +186,12 @@
                 }
             ],
             "items": [],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
         },
         {
             "name": "cellar",
-            "description": "in the computing admin office",
+            "description": "in the dungeons below...",
             "exits": [
                 {
                     "direction": "UP",
@@ -175,11 +203,162 @@
                 {
                     "id": "sword-0",
                     "name": "excalibur",
-                    "description": "an enchanted flaming sword",
-                    "type": "BOTH"
+                    "description": "the legendary and enchanted flaming sword",
+                    "type": "BOTH",
+                    "stats": {
+                        "weight": 2,
+                        "strength": 50,
+                        "agility": -10,
+                        "healthPoints": 50
+                    }
                 }
             ],
-            "npcs": []
+            "npcs": [],
+            "monsters": []
+        },
+        {
+            "name": "graveyard",
+            "description": "in a graveyard and it's dark and creepy. There are tombstones everywhere.",
+            "exits": [
+                {
+                    "direction": "SOUTH",
+                    "room": "outside",
+                    "locked": false
+                },
+                {
+                    "direction": "NORTH",
+                    "room": "mausoleum",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": [],
+            "monsters": [
+                {
+                    "name": "Gleep",
+                    "shortName": "Gleep",
+                    "inventory": [
+                        {
+                            "name": "mausoleum's key",
+                            "description": "the key that opens up the door to the mausoleum.",
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
+                        }
+                    ],
+                    "dialogue": {
+                        "startSentence": "Rawr!",
+                        "endSentence": "Gleep is pathetic. You no beat Dragonus. He strongest of us all!",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "fight",
+                                "sentences": [
+                                    "Die! Die! Will you die already?",
+                                    "Pfft, you weak.",
+                                    "Whaha, all humans are insects. I crush you!"
+                                ]
+                            },
+                            {
+                                "subject": "hurt",
+                                "sentences": [
+                                    "The more you hurt me, the stronger I bite back!",
+                                    "Oh oh oh, ouch!",
+                                    "RAWR!"
+                                ]
+                            },
+                            {
+                                "subject": "pickpocket",
+                                "sentences": [
+                                    "You.. Argh. Thats mine!"
+                                ]
+                            }
+                        ]
+                    },
+                    "stats": {
+                        "inventorySize": 1,
+                        "baseHealthPoints": 50,
+                        "healthPoints": 50,
+                        "strength": 10,
+                        "intellect": 1,
+                        "agility": 50,
+                        "sight": 0
+                    }
+                }
+            ]
+        },
+        {
+            "start": false,
+            "name": "mausoleum",
+            "description": "at the end of the graveyard you find yourself standing in the mausoleum",
+            "exits": [
+                {
+                    "direction": "SOUTH",
+                    "room": "graveyard",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": [],
+            "monsters": [
+                {
+                    "name": "Dragonus",
+                    "shortName": "Dragonus",
+                    "inventory": [
+                        {
+                            "name": "Pile of gold and gems",
+                            "description": "the loot from the mighty Dragonus",
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
+                        }
+                    ],
+                    "dialogue": {
+                        "startSentence": "Broaawr!!",
+                        "endSentence": "You. I don't. I won't believe it. How can you wield a weapon like that?",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "fight",
+                                "sentences": [
+                                    "You will perish.",
+                                    "Little insect. You mean nothing to the grand Dragonus!",
+                                    "Flee! Flee! Run while you still breathe."
+                                ]
+                            },
+                            {
+                                "subject": "hurt",
+                                "sentences": [
+                                    "That was just a little stab, you perish for that!",
+                                    "How is this possible, you're just a little insect.",
+                                    "Now I'm getting really angry"
+                                ]
+                            },
+                            {
+                                "subject": "pickpocket",
+                                "sentences": [
+                                    "You filthy flee, how dare you. Stay away from my loot!"
+                                ]
+                            }
+                        ]
+                    },
+                    "stats": {
+                        "inventorySize": 1,
+                        "baseHealthPoints": 100,
+                        "healthPoints": 100,
+                        "strength": 20,
+                        "intellect": 10,
+                        "agility": 25,
+                        "sight": 30
+                    }
+                }
+            ]
         }
     ]
 }

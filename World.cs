@@ -79,14 +79,22 @@ namespace Zuul
                         });
                     }
 
-                    foreach (var item in resRoom.items)
-                    {
-                        room.AddItem(new Zuul.Item(
-                            item.name.ToString(),
-                            item.description.ToString(),
-                            (ItemType) Enum.Parse(typeof(ItemType), item.type.ToString())
-                        ));
-                    }
+                    // foreach (var item in resRoom.items)
+                    // {
+                    //     // Console.WriteLine($"itemstats: {item.stats}");
+                    //     ItemStats itemStats = new ItemStats
+                    //     {
+                    //         Weight = item.stats.Weight,
+                    //         Strength = item.stats.Strength,
+                    //         Agility = item.stats.Agility,
+                    //         HealthPoints = item.stats.HealthPoints
+                    //     };
+                    //     room.AddItem(new Zuul.Item(
+                    //         item.name.ToString(),
+                    //         item.description.ToString(),
+                    //         (ItemType) Enum.Parse(typeof(ItemType), item.type.ToString())
+                    //     ));
+                    // }
 
                     foreach (var exit in resRoom.exits)
                     {
@@ -102,6 +110,40 @@ namespace Zuul
                                 Locked = exit.locked
                             });
                         }
+                    }
+
+                    foreach (var monster in resRoom.monsters)
+                    {
+                        Dictionary<string, string[]> subjectsAndSentences = new Dictionary<string, string[]>();
+                        
+                        foreach (var sns in monster.dialogue.subjectsAndSentences)
+                        {
+                            string topic = sns.subject;
+                            string[] sentences = sns.sentences.ToObject<string[]>();
+                            subjectsAndSentences.Add(topic, sentences);
+                        }
+
+                        Dialogue dialogue = new Dialogue {
+                            Greeting = monster.dialogue.startSentence,
+                            Goodbye = monster.dialogue.endSentence,
+                            SubjectsAndSentences = subjectsAndSentences
+                        };
+
+                        room.AddMonster(new Zuul.Entity.Monster {
+                            Name = monster.name,
+                            Inventory = new Inventory(monster.inventory.Count),
+                            ShortName = monster.shortName,
+                            Dialogue = dialogue,
+                            Stats = new Entity.MonsterStats {
+                                InventorySize = monster.inventory.Count,
+                                BaseHealthPoints = monster.stats.baseHealthPoints,
+                                HealthPoints = monster.stats.healthPoints,
+                                Strength = monster.stats.strength,
+                                Intellect = monster.stats.intellect,
+                                Agility = monster.stats.agility,
+                                Sight = monster.stats.sight
+                            }
+                        });
                     }
                 }
             }

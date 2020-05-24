@@ -20,22 +20,33 @@ namespace Zuul
         public Room Room { get => _room; }
         private Room _room { get; set; }
         public int Health { get => _health; }
-        private int _health = 10; // magic number
+        private int _health;
         public string Name { get; set; }
         private PlayerStats _basePlayerStats {get; set;}
-        public PlayerStats Stats {get; set;}
+        public PlayerStats Stats => _basePlayerStats;
         public Zuul.Entity.Npc Npc;
+        public Zuul.Entity.Monster Monster;
 
         public Player(string name)
         {
             Name = name;
-            _inventory = new Inventory(10); // magic number
+            _basePlayerStats = new PlayerStats {
+                InventorySize = 10,
+                HealthPoints = 100,
+                Strength = 25,
+                Intellect = 25,
+                Agility = 25,
+                Sight = 25
+            };  // magic numbers
+            _health = _basePlayerStats.HealthPoints;
+            _inventory = new Inventory(_basePlayerStats.InventorySize);
         }
 
         public void EnterRoom(Room room)
         {
             _room = room;
             _untalkToNpc();
+            _unfightMonster();
         }
 
         public Room GetCurrentRoom()
@@ -48,10 +59,10 @@ namespace Zuul
             return true;
         }
 
-        public void DoDamage(int amountOfDamage)
+        public void Hurt(int damage)
         {
             // add checks here
-            _health -= amountOfDamage;
+            _health -= damage;
         }
 
         public string _longDescription()
@@ -74,6 +85,16 @@ namespace Zuul
         private void _untalkToNpc()
         {
             this.Npc = null;
+        }
+
+        private void _unfightMonster()
+        {
+            this.Monster = null;
+        }
+
+        public void FightMonster(Zuul.Entity.Monster monster)
+        {
+            this.Monster = monster;
         }
     }
 }

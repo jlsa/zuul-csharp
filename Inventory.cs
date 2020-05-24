@@ -6,6 +6,7 @@ namespace Zuul
 {
     public class Inventory
     {
+        public List<Item> Items => _items;
         List<Item> _items = new List<Item>();
         int MaxSize => _maxSize;
         private int _maxSize;
@@ -67,6 +68,11 @@ namespace Zuul
         public bool HasItem(string itemName)
         {
             return _items.Where(i => i.Name == itemName).SingleOrDefault() != null;
+        }
+
+        public bool HasItems()
+        {
+            return _items.Any();
         }
     }
 }
