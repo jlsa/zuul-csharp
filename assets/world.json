@@ -1,7 +1,7 @@
 {
     "rooms": [
         {
-            "start": false,
+            "start": true,
             "name": "outside",
             "description": "Outside the main entrance of the university",
             "exits": [
@@ -193,13 +193,81 @@
             "monsters": []
         },
         {
-            "start": true,
             "name": "graveyard",
             "description": "in a graveyard and it's dark and creepy. There are tombstones everywhere.",
             "exits": [
                 {
                     "direction": "SOUTH",
                     "room": "outside",
+                    "locked": false
+                },
+                {
+                    "direction": "NORTH",
+                    "room": "mausoleum",
+                    "locked": false
+                }
+            ],
+            "items": [],
+            "npcs": [],
+            "monsters": [
+                {
+                    "name": "Gleep",
+                    "shortName": "Gleep",
+                    "inventory": [
+                        {
+                            "name": "mausoleum's key",
+                            "description": "the key that opens up the door to the mausoleum.",
+                            "type": "BROKEN"
+                        }
+                    ],
+                    "dialogue": {
+                        "startSentence": "Rawr!",
+                        "endSentence": "Gleep is pathetic. You no beat Dragonus. He strongest of us all!",
+                        "subjectsAndSentences": [
+                            {
+                                "subject": "fight",
+                                "sentences": [
+                                    "Die! Die! Will you die already?",
+                                    "Pfft, you weak.",
+                                    "Whaha, all humans are insects. I crush you!"
+                                ]
+                            },
+                            {
+                                "subject": "hurt",
+                                "sentences": [
+                                    "The more you hurt me, the stronger I bite back!",
+                                    "Oh oh oh, ouch!",
+                                    "RAWR!"
+                                ]
+                            },
+                            {
+                                "subject": "pickpocket",
+                                "sentences": [
+                                    "You.. Argh. Thats mine!"
+                                ]
+                            }
+                        ]
+                    },
+                    "stats": {
+                        "inventorySize": 1,
+                        "baseHealthPoints": 50,
+                        "healthPoints": 50,
+                        "strength": 10,
+                        "intellect": 1,
+                        "agility": 50,
+                        "sight": 0
+                    }
+                }
+            ]
+        },
+        {
+            "start": false,
+            "name": "mausoleum",
+            "description": "at the end of the graveyard you find yourself standing in the mausoleum",
+            "exits": [
+                {
+                    "direction": "SOUTH",
+                    "room": "graveyard",
                     "locked": false
                 }
             ],
