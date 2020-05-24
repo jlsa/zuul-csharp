@@ -45,7 +45,13 @@
                     "name": "key",
                     "id": "key-0",
                     "description": "a rusty key",
-                    "type": "BOTH"
+                    "type": "BOTH",
+                    "stats": {
+                        "weight": 0,
+                        "strength": 0,
+                        "agility": 0,
+                        "healthPoints": 0
+                    }
                 }
             ],
             "npcs": [],
@@ -66,7 +72,13 @@
                     "name": "beer",
                     "id": "beer-0",
                     "description": "a bitter tasting beverage",
-                    "type": "USE"
+                    "type": "USE",
+                    "stats": {
+                        "weight": 0,
+                        "strength": 0,
+                        "agility": 0,
+                        "healthPoints": 0
+                    }
                 }
             ],
             "npcs": [
@@ -79,7 +91,13 @@
                             "id": "bill-0",
                             "name": "bill",
                             "description": "the bill for your beer",
-                            "type": "BROKEN"
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
                         }
                     ],
                     "gender": "MALE",
@@ -185,8 +203,14 @@
                 {
                     "id": "sword-0",
                     "name": "excalibur",
-                    "description": "an enchanted flaming sword",
-                    "type": "BOTH"
+                    "description": "the legendary and enchanted flaming sword",
+                    "type": "BOTH",
+                    "stats": {
+                        "weight": 2,
+                        "strength": 50,
+                        "agility": -10,
+                        "healthPoints": 50
+                    }
                 }
             ],
             "npcs": [],
@@ -217,7 +241,13 @@
                         {
                             "name": "mausoleum's key",
                             "description": "the key that opens up the door to the mausoleum.",
-                            "type": "BROKEN"
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
                         }
                     ],
                     "dialogue": {
@@ -281,7 +311,13 @@
                         {
                             "name": "Pile of gold and gems",
                             "description": "the loot from the mighty Dragonus",
-                            "type": "BROKEN"
+                            "type": "BROKEN",
+                            "stats": {
+                                "weight": 0,
+                                "strength": 0,
+                                "agility": 0,
+                                "healthPoints": 0
+                            }
                         }
                     ],
                     "dialogue": {

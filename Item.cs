@@ -1,6 +1,16 @@
 using System;
 namespace Zuul
 {
+    public class ItemStats
+    {
+        public int Weight {get; set;}
+        public int HealthPoints {get; set;}
+        public int Strength {get; set;}
+        public int Intellect {get; set;}
+        public int Agility {get; set;}
+        public int Sight {get; set;}
+    }
+
     public enum ItemType
     {
         USE,
@@ -15,6 +25,8 @@ namespace Zuul
         private string _name { get; set; }
         public ItemType ItemType => _itemType;
         private ItemType _itemType { get; set; }
+
+        private ItemStats _itemStats { get; set; }
         public string Description => _description;
         private string _description { get; set; }
 
@@ -22,14 +34,19 @@ namespace Zuul
         private bool _enabled { get; set; }
 
         // maybe add states if used or not used? (or should we make a item type (polymorphism??) that can only be used?)
-
-        public Item(string name, string description, ItemType itemType, int uses = 1)
+        public Item(string name, string description, ItemType itemType, ItemStats itemStats, int uses = int.MaxValue)
         {
             _itemType = itemType;
             _name = name;
             _description = description;
-            Enable();
             AmountOfUses = uses;
+            _itemStats = itemStats;
+            Enable();
+        }
+
+        public Item(string name, string description, ItemType itemType, int uses = int.MaxValue)
+            : this(name, description, itemType, null, uses)
+        {
         }
 
         public void Enable()
