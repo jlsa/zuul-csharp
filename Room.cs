@@ -1,28 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Zuul.Enums;
 
 namespace Zuul
 {
-    public class Exit
-    {
-        public Directions Direction {get; set;}
-        public Room Room {get; set;}
-        public bool Locked { get; set; }
-
-        public void Unlock(Item key)
-        {
-            Locked = false;
-        }
-
-        public void Lock(Item key)
-        {
-            Locked = true;
-        }
-    }
-
     public class Room
     {
         public bool Start { get; set; }
@@ -34,15 +15,11 @@ namespace Zuul
         public string LongDescription => _longDescription();
         public string ShortDescription => _shortDescription();
         private string _description { get; set; }
-
         public List<Exit> Exits = new List<Exit>();
 
         public Room(string description)
-        {
-            Name = "";
-            _description = description;
-            _items = new List<Item>();
-        }
+            : this("", description)
+        {}
 
         public Room(string name, string description)
         {

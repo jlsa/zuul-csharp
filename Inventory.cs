@@ -6,6 +6,7 @@ namespace Zuul
 {
     public class Inventory
     {
+        public List<Item> Items => _items;
         List<Item> _items = new List<Item>();
         int MaxSize => _maxSize;
         private int _maxSize;

@@ -79,22 +79,22 @@ namespace Zuul
                         });
                     }
 
-                    foreach (var item in resRoom.items)
-                    {
-                        // Console.WriteLine($"itemstats: {item.stats}");
-                        ItemStats itemStats = new ItemStats
-                        {
-                            Weight = item.stats.Weight,
-                            Strength = item.stats.Strength,
-                            Agility = item.stats.Agility,
-                            HealthPoints = item.stats.HealthPoints
-                        };
-                        room.AddItem(new Zuul.Item(
-                            item.name.ToString(),
-                            item.description.ToString(),
-                            (ItemType) Enum.Parse(typeof(ItemType), item.type.ToString())
-                        ));
-                    }
+                    // foreach (var item in resRoom.items)
+                    // {
+                    //     // Console.WriteLine($"itemstats: {item.stats}");
+                    //     ItemStats itemStats = new ItemStats
+                    //     {
+                    //         Weight = item.stats.Weight,
+                    //         Strength = item.stats.Strength,
+                    //         Agility = item.stats.Agility,
+                    //         HealthPoints = item.stats.HealthPoints
+                    //     };
+                    //     room.AddItem(new Zuul.Item(
+                    //         item.name.ToString(),
+                    //         item.description.ToString(),
+                    //         (ItemType) Enum.Parse(typeof(ItemType), item.type.ToString())
+                    //     ));
+                    // }
 
                     foreach (var exit in resRoom.exits)
                     {
